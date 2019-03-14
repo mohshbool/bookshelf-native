@@ -1,0 +1,304 @@
+import React from 'react'
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
+import { Root, Container, Content, Form, Item, Picker, Icon, Textarea } from 'native-base'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import ImagePicker from 'react-native-image-picker'
+
+import Input from '../components/Input'
+import Button from '../components/Button'
+import PriceOverlayForm from '../components/PriceOverlayForm'
+
+import {
+  updateFormActionCreator,
+  updateFormValidityActionCreator,
+  updateOverlayVisibilityActionCreator,
+  updateSuggestionActionCreator,
+  getBooksActionCreator,
+  addBookActionCreator,
+  uploadImageActionCreator,
+  clearFormActionCreator
+} from '../actions/addBookActionCreators'
+
+import { reportInfo } from '../util'
+
+
+class AddBookScreen extends React.Component {
+  static navigationOptions = {
+    headerVisible: false,
+    header: null,
+  }
+
+  validateForm = () => setTimeout(() => {
+    const form = this.props.form
+    console.log(form)
+    if (!form.title || !form.author || !form.location.full || !form.type || !form.descreption 
+      || (!form.imageUri && !form.GRimageUrl)
+      || (form.type === 'Sell' && form.price <= 0)) {
+      this.props.updateFormValidity(false)
+    } else {
+      this.props.updateFormValidity(true)
+    }
+  }, 10)
+
+  handleTitleChange = title => {
+    this.props.updateForm({ title })
+    if (title.length > 1)
+      this.props.getBooks(title).then(books => {
+        this.props.updateSuggestion({...books[0]})
+        console.log(books)
+      }).catch(() => {})
+    else {
+      this.props.updateSuggestion({id: '', title: ''})
+    }
+    this.validateForm()
+  }
+  handleAuthorChange = author => {
+    this.props.updateForm({ author })
+    this.validateForm()
+  }
+  handleTypeChange = type => {
+    this.props.updateForm({ type: type, price: '' })
+    if (type === 'sell') {
+      this.props.updateOverlayVisibility(true)
+    }
+    else {
+      this.props.updateOverlayVisibility(false)
+    }
+    this.validateForm()
+  }
+  handleDescreptionChange = descreption => {
+    this.props.updateForm({ descreption })
+    this.validateForm()
+  }
+  handleChooseImage = () => {
+    ImagePicker.showImagePicker(null, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+        reportInfo('If you don\'t choose an image, one will be chosen for you based on the suggestion you chose')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+        reportInfo('Something went wrong while picking the image. Please try again later', 'danger')
+      } else {
+        this.props.updateForm({ imageUri: response.uri })
+      }
+      this.validateForm()
+    })
+  }
+  handleSuggestion = () => {
+    const suggestion = this.props.suggestion
+    if (suggestion.id) {
+      let book = {
+        title: suggestion.title,
+        author: suggestion.author.name,
+        GRimageUrl: suggestion.imageUrl
+      }
+      this.props.updateForm({...book})
+      this.props.updateSuggestion({id: '' , title: ''})
+    }
+    this.validateForm()
+  }
+
+  submit = () => {
+    const form = this.props.form
+    // IF USER DIDNT PROVIDE IMAGE, A SUGGESTION MUST BE CHOSEN.
+    // IMAGE WILL BE PROVIDED BY GOODREADS
+    if (!form.imageUri && this.props.suggestion.id) {
+      this.props.updateForm({ imageUri: form.GRimageUrl })
+    }
+    
+    //TODO UPLOAD FORM TO DB
+    this.props.addBook({uid: this.props.uid, ...form}).then(postId => {
+      console.log(form)
+      if (form.imageUri !== form.GRimageUrl) {
+        //TODO ADD TO DATABASE
+        this.props.uploadImage(form.imageUri, postId).then(() => {
+          reportInfo('Your post was added', null, null, 'top')
+          this.props.clearForm()
+          this.props.navigation.navigate("Home")
+        }).catch(error => {
+          reportInfo('Your picture wasn\'t uploaded. Please try again later', 'danger')
+          console.log(error || this.props.uploadImageStatus)
+        })
+      }
+    })
+  }
+
+  render () {
+    return (
+      <Root>
+        <Container>
+          <Content>
+            <PriceOverlayForm 
+              overlayVisible={this.props.isOverlayVisible}
+              onBackdropPress={() => {
+                this.props.updateOverlayVisibility(false)
+              }}
+              onConfirm={price => {
+                this.props.updateOverlayVisibility(false)
+                this.props.updateForm({ price })
+                this.validateForm()
+              }}
+              onDismiss={() => {
+                reportInfo('You need to have a price when selling', 'warning')
+                this.props.updateForm({ type: '', price: '' })
+              }}
+              basePrice={this.props.form.price}
+            />
+            <KeyboardAwareScrollView
+              enableAutomaticScroll={!this.props.isOverlayVisible}
+            >
+              <View style={styles.container}>
+                <View style={{ marginVertical: 0.5 }}>
+                  <Input
+                    placeholder="Title"
+                    value={this.props.form.title}
+                    onChangeText={this.handleTitleChange}
+                    containerStyle={styles.containerStyle}
+                    autoCapitalize="sentences"
+                    onSubmitEditing={() => this.author.focus() }
+                  />
+                <TouchableOpacity 
+                  style={{ marginTop: 3, marginLeft: 14 }}
+                  hitSlop={{top: 5, left: 1, bottom: 5, right: 5}}
+                  onPress={this.handleSuggestion}
+                >
+                  <Text style={{ fontSize: 10, fontStyle: 'italic', fontWeight: '400' }}>
+                    {this.props.suggestion.title && 
+                    `Did you mean ${this.props.suggestion.title}`}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+                <Input
+                  placeholder="Author"
+                  value={this.props.form.author}
+                  onChangeText={this.handleAuthorChange}
+                  containerStyle={styles.containerStyle}
+                  autoCapitalize="sentences"
+                  ref={input => this.author = input}
+                />
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('AddBookCities', {
+                    onPress: location => {
+                      this.props.updateForm({ location })
+                      this.validateForm()
+                    }
+                  })}
+                >
+                  <View style={styles.locationContainer}>
+                    <Text style={styles.location(!this.props.form.location.full)}>
+                        {!this.props.form.location.full 
+                        ? 'Choose location'
+                        : this.props.form.location.full}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Form style={styles.form}>
+                  <Item picker>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={<Icon name="arrow-down" />}
+                      style={{ width: undefined }}
+                      placeholder="Choose the type of listing"
+                      textStyle={{fontSize: 17}}
+                      selectedValue={this.props.form.type}
+                      onValueChange={this.handleTypeChange}
+                    >
+                      <Picker.Item label="FREE" value="free" />
+                      <Picker.Item label="Trade" value="trade" />
+                      <Picker.Item label="Sell" value="sell" />
+                    </Picker>
+                  </Item>
+                </Form>
+                <Form style={styles.form}>
+                  <Textarea 
+                    rowSpan={3}  
+                    placeholder={"Write a short descreption about your book." + 
+                      " Condition, location details or other details"} 
+                    style={{ fontSize: 17 }}
+                    value={this.props.form.descreption}
+                    onChangeText={this.handleDescreptionChange}
+                  />
+                </Form>
+                <Button
+                  title="Choose an image" 
+                  icon={<Icon 
+                    type="MaterialCommunityIcons" 
+                    name="file-image" 
+                    size={15}
+                  />}
+                  onPress={this.handleChooseImage}
+                  buttonStyle={{ paddingVertical: 10 }}
+                  containerStyle={styles.buttonContainerStyle}
+                />
+                <Button
+                  title="Submit" 
+                  onPress={this.submit}
+                  buttonStyle={{ paddingVertical: 15 }}
+                  containerStyle={styles.buttonContainerStyle}
+                  disabled={!this.props.isFormValid}
+                />
+              </View>
+            </KeyboardAwareScrollView>
+          </Content>
+        </Container>
+      </Root>
+    )
+  }
+}
+
+const styles = {
+  container: {
+    alignContent: 'center',
+    margin: 5, 
+    paddingHorizontal: 10, 
+    paddingTop: 60
+  },
+  containerStyle : { marginVertical: 7.5 },
+  buttonContainerStyle: {
+    marginVertical: 20,
+    marginHorizontal: 10,
+  },
+  locationContainer: {
+    marginVertical: 20,
+    marginLeft: 12, 
+    marginRight: 10,
+    borderBottomWidth: 1, 
+    borderBottomColor: '#808080',
+  },
+  location: placeholder => ({
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 18,
+    color: placeholder ? '#C7C7CD' : '#000',
+  }),
+  form: {
+    marginVertical: 10, 
+    marginHorizontal: 10, 
+    borderBottomWidth: 1, 
+    borderBottomColor: '#808080',
+  },
+}
+
+const mapStateToProps = state => ({
+  form: state.addBook.updateForm,
+  isFormValid: state.addBook.updateFormValidity,
+  isOverlayVisible: state.addBook.updateOverlayVisibility,
+  suggestion: state.addBook.updateSuggestion,
+  addBookStatus: state.addBook.addBook,
+  uploadImageStatus: state.addBook.uploadImage,
+  uid: state.user.updateUser.uid,
+})
+
+const mapDispatchToProps = {
+  updateForm: updateFormActionCreator,
+  updateFormValidity: updateFormValidityActionCreator,
+  updateOverlayVisibility: updateOverlayVisibilityActionCreator,
+  updateSuggestion: updateSuggestionActionCreator,
+  getBooks: getBooksActionCreator,
+  addBook: addBookActionCreator,
+  uploadImage: uploadImageActionCreator,
+  clearForm: clearFormActionCreator,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddBookScreen)
