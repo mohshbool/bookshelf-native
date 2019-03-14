@@ -86,7 +86,7 @@ class verifyPhoneNumberScreen extends React.Component {
     console.log(this.props.state)
     return (
       <Root>
-        <Container>
+        <Container style={{backgroundColor: '#c7c7d3'}}>
           <Content>
             <OverlayForm 
               overlayVisible={this.props.overlayVisible}
@@ -97,12 +97,12 @@ class verifyPhoneNumberScreen extends React.Component {
               enableAutomaticScroll={!this.props.overlayVisible}
             >
               <NButton transparent style={{marginTop: 40,}} onPress={this.back}>
-                <Icon name='ios-arrow-back' style={{fontSize: 26, color: '#8d8d8d'}}/>
-                <Text style={{fontSize: 18, color: '#8d8d8d'}}>Back</Text>
+                <Icon name='ios-arrow-back' style={{fontSize: 26, color: '#47466f'}}/>
+                <Text style={{fontSize: 18, color: '#59587d'}}>Back</Text>
               </NButton>
               <View style={{margin: 5, marginTop: 180}}>
                 <View style={{ marginLeft: 16, marginBottom: 30 }}>
-                  <Text style={{ fontSize: 18 }}>
+                  <Text style={{ fontSize: 18, fontWeight: '600', color: '#47466f' }}>
                     Make sure this your phone number
                   </Text>
                 </View>
@@ -117,7 +117,8 @@ class verifyPhoneNumberScreen extends React.Component {
                   enablesReturnKeyAutomatically
                   containerStyle={{ marginVertical: 10 }}
                   inputContainerStyle={{ padding: 5 }}
-                  icon={<Icon name='ios-call' style={{fontSize: 26}}></Icon>}
+                  inputStyle={{color: '#383858', fontWeight: '500'}}
+                  icon={<Icon name='ios-call' style={{fontSize: 26, color: '#47466f',}}></Icon>}
                   ref={input => this.phone = input} 
                 />
                 <Button
