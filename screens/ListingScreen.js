@@ -17,7 +17,9 @@ import {
 
 class ListingSceen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: navigation.getParam('title') || '',
+    // Uncommend the next line to add title to header
+    // headerTitle: navigation.getParam('title') || '',
+    
   })
 
   componentWillMount() {
@@ -42,14 +44,14 @@ class ListingSceen extends React.Component {
     } = this.props.user.user
     if (this.props.user.error) reportInfo(this.props.user.error, 'danger')
     return (
-      <ScrollView scrollEnabled={!this.props.isOverlayVisibile}>
+      <ScrollView scrollEnabled={!this.props.isOverlayVisibile} style={styles.container}>
       <ContactInfoOverlay
         isVisible={this.props.isOverlayVisibile}
         onDismiss={this.props.updateOverlayVisibility}
         email={email}
         phoneNumber={phoneNumber}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <View style={styles.header}>
           <View style={styles.title.container}>
             <Text style={styles.title.text}>{upperCaseFirstLetterInWords(title)}</Text>
@@ -69,13 +71,12 @@ class ListingSceen extends React.Component {
           <View style={styles.rows[1]}>
             <View style={pricingStyles.container}>
               <View style={pricingStyles.type.container(type)}>
+            {type === 'sell' ? (
+                <Text style={pricingStyles.type.text}>{price + " JD"}</Text>
+              ) : ( 
                 <Text style={pricingStyles.type.text}>{upperCaseFirstLetter(type)}</Text>
-              </View>
-              {type === 'sell' && (
-                <View style={pricingStyles.price.container}>
-                  <Text style={pricingStyles.price.text}>{price}</Text>
-                </View>
               )}
+              </View> 
             </View>
           </View>
           <View style={styles.rows[2]}>
@@ -119,22 +120,20 @@ class ListingSceen extends React.Component {
 const getBackgoundColor = type => {
   switch(type) {
     case 'free':
-      return 'green'
+      return '#07b618'
     case 'trade':
-      return 'yellow'
+      return '#fbc622'
     case 'sell':
-      return 'orange'
+      return '#ff7805'
   }
 }
 
 const styles = {
   container: {
-    
+    backgroundColor: '#c7c7d3'
   },
   header: {
-    backgroundColor: '#d8d8d8',
-    borderBottomWidth: 0.7,
-    borderBottomColor: '#8c8c8c',
+    backgroundColor: '#47466f',
   },
   title: {
     container: {
@@ -143,7 +142,7 @@ const styles = {
     },
     text: {
       fontSize: 26,
-      color: 'black',
+      color: '#f9f7e2',
     }
   },
   author : {
@@ -154,6 +153,7 @@ const styles = {
     text: {
       fontSize: 20,
       fontStyle: 'italic',
+      color: '#aba991',
     },
   },
   body: {
@@ -161,15 +161,14 @@ const styles = {
   },
   rows: [
     {
-      marginVertical: 5,
+      paddingVertical: 1,
       borderBottomWidth: 0.4,
       borderBottomColor: '#4c4c4c', 
       alignItems: 'center',
 
     },
     {
-      marginTop: 20,
-      marginBottom: 15,
+      marginVertical: 15,
     },
     {
       marginVertical: 10,
@@ -191,6 +190,7 @@ const styles = {
     height: 340,
     marginHorizontal: 8,
     marginVertical: 3,
+    borderRadius: 5,
   },
   user: {
     container: {
@@ -247,10 +247,7 @@ const styles = {
 
 const pricingStyles = {
   container: {
-    justifyContent: 'space-around',
-    flexDirection: 'row',
     alignItems: 'center',
-    alignContent: 'center',
     paddingHorizontal: 15,
   },
   type: {
@@ -260,24 +257,14 @@ const pricingStyles = {
       borderColor:  '#7c7c7c',
       paddingVertical: 3,
       paddingHorizontal: 10,
-      marginRight: type === 'sell' ? 5 : 0,
       marginBottom: 15,
     }),
     text: {
-      fontSize: 26,
+      fontSize: 23,
       fontWeight: '400',
+      color: '#181716'
     },
   },
-  price: {
-    container: {
-      marginLeft: 5,
-      marginBottom: 10,
-    },
-    text: {
-      fontSize: 34,
-      fontWeight: '300',
-    },
-  }
 }
 
 const mapStateToProps = state => ({

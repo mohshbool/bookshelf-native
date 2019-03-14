@@ -52,28 +52,29 @@ export default class CitiesScreen extends React.Component {
 
 const styles = StyleSheet.create({
   divider: {
-    borderTopColor: '#8c8c8c',
+    borderTopColor: '#47466f',
     borderTopWidth: 1,
-    borderBottomColor: '#8c8c8c',
+    borderBottomColor: '#47466f',
     borderBottomWidth: 1,
-    backgroundColor: '#d8d8d8',
+    backgroundColor: '#31314d',
   },
   dividerText: {
     paddingVertical: 5,
     paddingHorizontal: 15, 
     fontSize: 20,
     fontWeight: '300',
-    color: '#333333',
+    color: '#c7c7d3',
   },
   item: {
     borderBottomColor: '#8c8c8c',
     borderBottomWidth: 0.5,
-    backgroundColor: '#fff'
+    backgroundColor: '#c7c7d3'
   },
   itemText: {
     paddingVertical: 12,
     paddingHorizontal: 23,
     fontSize: 15,
-    fontWeight: '300'
+    fontWeight: '300',
+    color: '#47466f'
   }
 })

@@ -36,6 +36,7 @@ export default class Input extends React.Component {
             autoCapitalize={this.props.autoCapitalize || 'none'}
             ref={ref => this.input = ref}
             enablesReturnKeyAutomatically
+            placeholderTextColor="#7e7d9a"
           />
         </View>
         {!!this.props.errorMessage && (
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#808080',
+    borderBottomColor: '#47466f',
   },
   input: {
     alignSelf: 'center',

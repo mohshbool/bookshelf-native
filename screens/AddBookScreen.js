@@ -128,7 +128,7 @@ class AddBookScreen extends React.Component {
     return (
       <Root>
         <Container>
-          <Content>
+          <Content style={{backgroundColor: '#c7c7d3'}}>
             <PriceOverlayForm 
               overlayVisible={this.props.isOverlayVisible}
               onBackdropPress={() => {
@@ -163,7 +163,12 @@ class AddBookScreen extends React.Component {
                   hitSlop={{top: 5, left: 1, bottom: 5, right: 5}}
                   onPress={this.handleSuggestion}
                 >
-                  <Text style={{ fontSize: 10, fontStyle: 'italic', fontWeight: '400' }}>
+                  <Text style={{ 
+                    fontSize: 10, 
+                    fontStyle: 'italic', 
+                    fontWeight: '400' 
+                    }}
+                  >
                     {this.props.suggestion.title && 
                     `Did you mean ${this.props.suggestion.title}`}
                   </Text>
@@ -200,7 +205,7 @@ class AddBookScreen extends React.Component {
                       iosIcon={<Icon name="arrow-down" />}
                       style={{ width: undefined }}
                       placeholder="Choose the type of listing"
-                      textStyle={{fontSize: 17}}
+                      textStyle={{fontSize: 17, color: '#47466f'}}
                       selectedValue={this.props.form.type}
                       onValueChange={this.handleTypeChange}
                     >
@@ -215,6 +220,7 @@ class AddBookScreen extends React.Component {
                     rowSpan={3}  
                     placeholder={"Write a short descreption about your book." + 
                       " Condition, location details or other details"} 
+                    placeholderTextColor="#7e7d9a"
                     style={{ fontSize: 17 }}
                     value={this.props.form.descreption}
                     onChangeText={this.handleDescreptionChange}
@@ -225,7 +231,10 @@ class AddBookScreen extends React.Component {
                   icon={<Icon 
                     type="MaterialCommunityIcons" 
                     name="file-image" 
-                    size={15}
+                    style={{
+                      fontSize: 24,
+                      color: '#c7c7d3'
+                    }}
                   />}
                   onPress={this.handleChooseImage}
                   buttonStyle={{ paddingVertical: 10 }}
@@ -270,7 +279,7 @@ const styles = {
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 18,
-    color: placeholder ? '#C7C7CD' : '#000',
+    color: placeholder ? '#7e7d9a' : 'black',
   }),
   form: {
     marginVertical: 10, 
