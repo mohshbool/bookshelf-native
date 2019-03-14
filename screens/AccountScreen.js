@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { View, Text, StyleSheet } from 'react-native'
-import { Container, Content, Button, Card, CardItem, Icon, Right } from 'native-base'
+import { Container, Content, Button as NButton, Card, CardItem, Icon, Right } from 'native-base'
 import { signOut } from '../api/firebase';
-
+import Button from '../components/Button'
 class AccountScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
@@ -30,33 +30,40 @@ class AccountScreen extends React.Component {
               <Icon name="ios-person" style={styles.itemIcon}/>
               <Text style={styles.itemText}>{username}</Text>
             </CardItem>
-            <CardItem>
+            <CardItem style={styles.itemContainer}>
               <Icon name="ios-mail" style={styles.itemIcon}/>
               <Text style={StyleSheet.flatten([styles.itemText, {fontStyle: 'italic'}])}>{email}</Text>
             </CardItem>
-            <CardItem style={{marginVertical: 10}}>
+            <CardItem style={{...styles.itemContainer, marginVertical: 10}}>
               <Icon name="ios-call" style={styles.itemIcon}/>
               <Text style={styles.itemText}>{phoneNumber}</Text>
               <Right>
-                <Button transparent onPress={this.navigateToPhone} disabled={isPhoneVerified}>
+                <NButton transparent onPress={this.navigateToPhone} disabled={isPhoneVerified}>
                   <Icon type="Feather" name={shieldIconName} style={styles.shield} />
-                </Button>
+                </NButton>
               </Right>
             </CardItem>
            </Card>
            <View style={styles.buttonsContainer}>
-            <Button iconRight block style={styles.buttonContainer}>
-            <Icon type="MaterialIcons" name="contact-mail" style={styles.buttonIcon} />
-              <Text style={styles.buttonText}>
-                Contact Us
-              </Text>
-            </Button>
-            <Button iconRight block>
-              <Icon name="ios-log-out" style={styles.buttonIcon} />
-              <Text style={styles.buttonText}>
-                Log Out
-              </Text>
-            </Button>
+            <Button 
+              title="Contact Us"
+              icon={<Icon 
+                type="MaterialIcons" 
+                name="contact-mail" 
+                style={styles.buttonIcon} 
+              />}
+              containerStyle={styles.buttonContainer}
+              buttonTitleStyle={styles.buttonText}
+            />
+            <Button 
+              title="Log Out"
+              icon={<Icon 
+                name="ios-log-out" 
+                style={styles.buttonIcon} 
+              />}
+
+              buttonTitleStyle={styles.buttonText}
+            />
            </View>
         </Content>
       </Container>
@@ -69,45 +76,54 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     justifyContent: 'center',
+    backgroundColor: '#c7c7d3'
   },
   card: {
     marginVertical: 20,
+    backgroundColor: '#47466f',
+    borderRadius: 10,
   },
   itemContainer: {
     marginVertical: 15,
+    borderRadius: 5,
+    backgroundColor: '#47466f'
   },
   itemIcon: {
-    fontSize: 28,
     marginHorizontal: 10,
     marginTop: 5,
+    fontSize: 28,
+    color: '#9392ba'
   },
   itemText : {
     fontSize: 26,
     fontWeight: '400',
+    color: '#c7c7d3',
   },
   shield: {
     fontSize: 26,
     marginBottom: 3,
+    color: '#a3a2c4'
   },
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 100,
-    paddingHorizontal: 10,
+    paddingHorizontal: 6,
   },
   buttonContainer: {
-    marginRight: 20,
+    marginRight: 30,
   },
   buttonIcon: {
+    paddingLeft: 4,
+    paddingRight: 2,
     fontSize: 25,
-    paddingLeft: 10,
+    color: '#c7c7d3',
   },
   buttonText: {
     fontSize: 24,
     fontWeight: '400',
-    paddingRight: 10,
+    paddingHorizontal: 5,
   }
-
 })
 
 const mapStateToProps = state => ({

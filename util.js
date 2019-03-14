@@ -92,6 +92,18 @@ export const upperCaseFirstLetterInWords = string => {
 	}).join(' ')
 }
 
+// A fucntion to get current date formatted
+export const getCurrentDate = () => {
+	return new Date().toLocaleString(undefined, {
+		day: 'numeric',
+		month: 'numeric',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+	})
+}
+
 // A helper function for react-native-firebase push notification
 /* export const pushLocalNotification = (title, message) => {
 	PushNotification.configure({
