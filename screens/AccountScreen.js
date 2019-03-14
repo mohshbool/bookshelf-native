@@ -21,7 +21,7 @@ class AccountScreen extends React.Component {
       phoneNumber,
       isPhoneVerified
     } = this.props.user
-    const shieldIconName  = isPhoneVerified ? "shield-check" : "shield-off"
+    const shieldIconName  = isPhoneVerified ? "shield" : "shield-off"
     return(
       <Container>
         <Content contentContainerStyle={styles.container}>
@@ -49,7 +49,7 @@ class AccountScreen extends React.Component {
               title="Contact Us"
               icon={<Icon 
                 type="MaterialIcons" 
-                name="contact-mail" 
+                name="contact-mail"
                 style={styles.buttonIcon} 
               />}
               containerStyle={styles.buttonContainer}
@@ -61,8 +61,8 @@ class AccountScreen extends React.Component {
                 name="ios-log-out" 
                 style={styles.buttonIcon} 
               />}
-
               buttonTitleStyle={styles.buttonText}
+              onPress={signOut}
             />
            </View>
         </Content>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Text, 
   View,
 } from 'react-native';
@@ -65,11 +66,28 @@ class verifyPhoneNumberScreen extends React.Component {
         console.log('creating the credntial worked')
         this.props.addToDB(credntial).then(() => {
           //TODO PHONE VERIFICATION SUCCESS
+          //TODO PUSH NOTIFICATION
+          this.props.updateVisibilty(false)
+          this.props.navigation.navigate('Account')
           console.log("EVERYTHING WORKED!!!")
         }).catch(() => {
           //TODO ERROR REPORTING ON A PROBLEM WITH ADDING THE PHONE TO THE DATABASE
           //reportInfo('There was a problem adding your verified phone number to the database', 'danger')
           console.log(this.props.addPhoneToDB)
+          Alert.alert(
+            'Invalid Verification Code',
+            this.props.addPhoneToDB,
+            [
+              {
+                text: 'Okay',
+                style: 'destructive',
+                onPress: () => {
+                  this.props.updateVisibilty(false)
+                  setTimeout(this.forceUpdate, 10)
+                }
+              }
+            ]
+          )
         })
       }).catch(() => {
         //TODO ERROR REPORTING ON PROBLEMS WITH VERIFYING THE CODE
