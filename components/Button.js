@@ -30,12 +30,15 @@ export default class Button extends React.Component {
 }
 
 const getBackgroundColor = (disabled, backgroundColor) => {
+  // Disabled
   if (disabled)
-    return '#808080'
+    return '#77777e'
+  // Default
   else if (!disabled && backgroundColor) 
     return backgroundColor
+  // Active Color
   else if (!disabled && !backgroundColor)
-    return '#0000ff'
+    return '#47466f'
 }
 
 const styles = {
@@ -56,13 +59,13 @@ const styles = {
     maginVertical: 5,
   },
   title: {
-    color: '#fff',
+    color: '#c7c7d3',
     fontSize: 18,
     textAlign: 'center',
     paddingTop: 2,
     paddingBottom: 1,
   },
   iconContainer: {
-    marginHorizontal: 5,
+    marginHorizontal: 8,
   },
 }

@@ -70,8 +70,8 @@ class HomeScreen extends React.Component {
     return (
       <Root>
         <Container>
-          <Header searchBar rounded>
-            <Item>
+          <Header searchBar rounded style={styles.header}>
+            <Item style={{backgroundColor: '#c7c7d3'}}>
               <Icon name="ios-search" />
               <Input 
                 placeholder="Search"
@@ -80,11 +80,18 @@ class HomeScreen extends React.Component {
                 onSubmitEditing={() => this.author.focus() }
               />
             </Item>
-            <Button transparent onPress={this.updateList} disabled={this.validate()}>
-              <Text>Search</Text>
+            <Button 
+              transparent 
+              onPress={this.updateList} 
+              disabled={this.validate()}
+            >
+              <Text style={{ color: '#c7c7d3' }}>Search</Text>
             </Button>
           </Header>
-          <Content contentContainerStyle={styles.container}>
+          <Content 
+            contentContainerStyle={styles.container} 
+            style={{backgroundColor: '#c7c7d3'}}
+          >
             <FlatList 
               data={objectToArray(this.props.listings)}
               renderItem={this._renderItem}
@@ -99,10 +106,12 @@ class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#47466f'
+  },
   container: {
     paddingHorizontal: 3,
     paddingTop: 20,
-    backgroundColor: '#c7c7d3',
   },
 });
 

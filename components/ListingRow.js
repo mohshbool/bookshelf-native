@@ -52,11 +52,11 @@ export default class ListingRow extends React.Component {
 const getTypeColor = type => {
   switch(type) {
     case 'free':
-      return 'black'
+      return '#07b618'
     case 'trade':
-      return 'yellow'
+      return '#fbc622'
     case 'sell':
-      return '#3f2a14'
+      return '#ff7805'
   }
 }
 const getMarginRight = type => {
