@@ -21,7 +21,7 @@ import {
   addToDBActionCreator,
 } from '../actions/phoneActionCreators'
 
-import { formatOnE164, reportInfo } from '../util'
+import { formatOnE164, reportInfo, pushLocalNotification } from '../util'
 
 class verifyPhoneNumberScreen extends React.Component {
   static navigationOptions = {
@@ -67,6 +67,8 @@ class verifyPhoneNumberScreen extends React.Component {
         this.props.addToDB(credntial).then(() => {
           //TODO PHONE VERIFICATION SUCCESS
           //TODO PUSH NOTIFICATION
+          // --UNSAFE--
+          //pushLocalNotification('Success', 'Your phone number is now verified. You can add books now.')
           this.props.updateVisibilty(false)
           this.props.navigation.navigate('Account')
           console.log("EVERYTHING WORKED!!!")

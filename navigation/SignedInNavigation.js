@@ -44,7 +44,6 @@ export default createBottomTabNavigator(
       inactiveTintColor: '#9090a8',
       inactiveBackgroundColor: '#c7c7d3',
       style: {
-        
         backgroundColor: '#c7c7d3',
         shadowColor: 'rgba(0,0,0, .4)',
         shadowOffset: { height: 1, width: 3 },

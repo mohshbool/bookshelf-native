@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import AccountScreen from '../screens/AccountScreen'
 import verifyPhoneNumberScreen from '../screens/verifyPhoneNumberScreen'
+import AboutScreen from '../screens/AboutScreen'
 
 const AccountNavigator = createStackNavigator({
   Account: {
@@ -11,6 +12,9 @@ const AccountNavigator = createStackNavigator({
   },
   VerifyPhoneNumber: {
     screen: verifyPhoneNumberScreen
+  },
+  About: {
+    screen: AboutScreen
   }
 }, {
   initialRouteName: "Account"
