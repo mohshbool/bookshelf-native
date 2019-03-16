@@ -54,6 +54,7 @@ class AccountScreen extends React.Component {
               />}
               containerStyle={styles.buttonContainer}
               buttonTitleStyle={styles.buttonText}
+              onPress={() => this.props.navigation.navigate('About')}
             />
             <Button 
               title="Log Out"
