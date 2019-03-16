@@ -22,7 +22,6 @@ import {
 
 import { reportInfo } from '../util'
 
-
 class AddBookScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
@@ -94,34 +93,32 @@ class AddBookScreen extends React.Component {
         GRimageUrl: suggestion.imageUrl
       }
       this.props.updateForm({...book})
-      this.props.updateSuggestion({id: '' , title: ''})
+      this.props.updateSuggestion({title: ''})
     }
     this.validateForm()
   }
 
   submit = () => {
-    const form = this.props.form
+    const success = () => {
+      reportInfo('Your post was added', null, null, 'top')
+      this.props.clearForm()
+      setTimeout(() => this.props.navigation.navigate("Home"), 10)
+    }
+
     // IF USER DIDNT PROVIDE IMAGE, A SUGGESTION MUST BE CHOSEN.
     // IMAGE WILL BE PROVIDED BY GOODREADS
-    if (!form.imageUri && this.props.suggestion.id) {
-      this.props.updateForm({ imageUri: form.GRimageUrl })
+    if (!this.props.form.imageUri && this.props.suggestion.imageUrl) {
+      this.props.updateForm({ imageUri: this.props.form.GRimageUrl })
     }
-    
-    //TODO UPLOAD FORM TO DB
-    this.props.addBook({uid: this.props.uid, ...form}).then(postId => {
-      console.log(form)
-      if (form.imageUri !== form.GRimageUrl) {
-        //TODO ADD TO DATABASE
-        this.props.uploadImage(form.imageUri, postId).then(() => {
-          reportInfo('Your post was added', null, null, 'top')
-          this.props.clearForm()
-          this.props.navigation.navigate("Home")
-        }).catch(error => {
+
+    setTimeout(() => this.props.addBook({uid: this.props.uid, ...this.props.form}).then(postId => {
+      if (this.props.form.imageUri !== this.props.form.GRimageUrl) {
+        this.props.uploadImage(this.props.form.imageUri, postId).then(success).catch(error => {
           reportInfo('Your picture wasn\'t uploaded. Please try again later', 'danger')
           console.log(error || this.props.uploadImageStatus)
         })
-      }
-    })
+      } else success()
+    }), 10)
   }
 
   render () {
