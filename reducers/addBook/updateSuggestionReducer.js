@@ -1,12 +1,7 @@
 const initialState = {
-  id: '',
   title: '',
-  author: {
-    id: '',
-    name: '',
-  },
+  author: '',
   imageUrl: '',
-  smallImageUrl: '',
 }
 
 const updateSuggestionReducer = (state = initialState, action) => {

@@ -112,6 +112,8 @@ export const verifyPhoneNumber = {
     .then(() => {
       const { uid } = firebase.auth().currentUser
       let updates = {}
+      // THERE IS A PROBLEM ON THIS LINE
+      // OVERWRITES ALL DATA AT LOCATION
       updates['users/' + uid] = {
         isPhoneVerified: true,
       }
