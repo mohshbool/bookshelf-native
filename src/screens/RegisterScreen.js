@@ -80,7 +80,7 @@ class RegisterScreen extends React.Component {
       case "password": iconName = 'ios-lock'; break;
       case "phone": iconName = "ios-call"; break;
     }
-    return <Icon type="Ionicons" name={iconName} style={{fontSize: 26}} />
+    return <Icon type="Ionicons" name={iconName} style={styles.icon} />
   }
 
   _register = () => {
@@ -113,13 +113,14 @@ class RegisterScreen extends React.Component {
   render() {
     return (
       <Container>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView style={{backgroundColor: '#c7c7d3'}}>
           <View style={styles.container}>
           <Input
             placeholder="Username"
             value={this.props.user.username.value}
             onChangeText={this.handleUsernameChange}
             containerStyle={styles.containerStyle}
+            inputStyle={styles.inputStyle}
             errorMessage={this.props.user.username.err}
             errorStyle={{ color: this.props.user.username.color }}
             icon={this.getIcon('username')}
@@ -131,6 +132,7 @@ class RegisterScreen extends React.Component {
             onChangeText={this.handleEmailChange}
             textContentType="username"
             containerStyle={styles.containerStyle}
+            inputStyle={styles.inputStyle}
             errorMessage={this.props.user.email.err}
             errorStyle={{ color: this.props.user.email.color }}
             icon={this.getIcon('email')}
@@ -146,6 +148,7 @@ class RegisterScreen extends React.Component {
             contextMenuHidden
             enablesReturnKeyAutomatically
             containerStyle={styles.containerStyle}
+            inputStyle={styles.inputStyle}
             errorMessage={this.props.user.password.err}
             errorStyle={{ color: this.props.user.password.color }}
             icon={this.getIcon('password')}
@@ -162,6 +165,7 @@ class RegisterScreen extends React.Component {
             textContentType="telephoneNumber"
             returnKeyType={"next"}
             containerStyle={styles.containerStyle}
+            inputStyle={styles.inputStyle}
             errorMessage={this.props.user.phone.err}
             errorStyle={{ color: this.props.user.phone.color }}
             icon={this.getIcon('phone')}
@@ -178,7 +182,7 @@ class RegisterScreen extends React.Component {
             onPress={() => this.props.navigation.navigate('Login')}
             hitSlop={{top: 15, bottom: 15, left: 10, right: 10}}
           >
-            <Text style={{ fontSize: 15 }}>
+            <Text style={{ fontSize: 18, color: '#47466f'}}>
               Already have an account?&nbsp;
               <Text style={{fontWeight: 'bold'}}>
                 Log In
@@ -198,8 +202,19 @@ const styles = StyleSheet.create({
     margin: 5, 
     paddingHorizontal: 10, 
     paddingTop: 70,
-},
-  containerStyle : { marginVertical: 7.5 },
+  },
+  containerStyle : { 
+    marginVertical: 7.5 
+  },
+  inputStyle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#47466f',
+  },
+  icon: {
+    fontSize: 26, 
+    color: '#47466f'
+  },
   registerButton: {
     marginVertical: 20,
     marginHorizontal: 10

@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { View, Text, StyleSheet } from 'react-native'
 import { Container, Content, Button as NButton, Card, CardItem, Icon, Right } from 'native-base'
-import { signOut } from '../api/firebase';
 import Button from '../components/Button'
+
+import { signOut } from '../api/firebase'
 class AccountScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
@@ -12,6 +13,11 @@ class AccountScreen extends React.Component {
 
   navigateToPhone = () => {
     this.props.navigation.navigate('VerifyPhoneNumber')
+  }
+
+  signOut = () => {
+    signOut()
+    this.props.navigation.navigate('SignedOut') // UNSAFE
   }
 
   render() {
@@ -63,7 +69,7 @@ class AccountScreen extends React.Component {
                 style={styles.buttonIcon} 
               />}
               buttonTitleStyle={styles.buttonText}
-              onPress={signOut}
+              onPress={this.signOut}
             />
            </View>
         </Content>

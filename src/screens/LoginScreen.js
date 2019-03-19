@@ -62,7 +62,7 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Container>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView style={{backgroundColor: '#c7c7d3'}}>
           <View style={styles.container}>
             <Input
               autoFocus
@@ -71,7 +71,7 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleEmailChange}
               textContentType="username"
               containerStyle={styles.containerStyle}
-              icon={<Icon name='ios-mail' style={{fontSize: 26}} />}
+              icon={<Icon name='ios-mail' style={styles.icon} />}
               onSubmitEditing={() => this.password.focus()}
             />
             <Input
@@ -82,7 +82,8 @@ class LoginScreen extends React.Component {
               secureTextEntry
               contextMenuHidden
               containerStyle={styles.containerStyle}
-              icon={<Icon name='ios-lock' style={{fontSize: 26}} />}
+              inputStyle={styles.inputStyle}
+              icon={<Icon name='ios-lock' style={styles.icon} />}
               ref={input => this.password = input}
             />
             <Button 
@@ -100,12 +101,23 @@ class LoginScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  containerStyle : { marginVertical: 10, },
   container: {
     alignContent: 'center',
     margin: 5, 
     paddingHorizontal: 10, 
     paddingTop: 70 
+  },
+  containerStyle : { 
+    marginVertical: 10, 
+  },
+  inputStyle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#47466f',
+  },
+  icon: {
+    fontSize: 26, 
+    color: '#47466f'
   },
   button: {
     marginVertical: 20,

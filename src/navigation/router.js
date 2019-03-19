@@ -1,9 +1,10 @@
+import React from 'react'
+import { Icon } from 'native-base'
 import { 
   createAppContainer, 
   createStackNavigator,
   createSwitchNavigator
 } from "react-navigation"
-import { Icon } from 'native-base'
 
 import SignedIn from './SignedInNavigation'
 
@@ -25,21 +26,30 @@ export const SignedOut = createStackNavigator(
       }
     }
   }, {
-    headerStyle: {
-      backgroundColor: '#c7c7d3'
-    },
-    headerBackTitleStyle: {
-      color: '#101010'
-    },
-    headerBackImage: (tintColor, title) => (
-      <Icon name="ios-arrow-back" style={{
-        fontSize: 23, 
-        color: '#101010', 
-        paddingLeft: 15,
-        paddingRight: 7,
-        }} 
-      />
-    )
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#c7c7d3',
+        shadowColor: 'rgba(0,0,0, .4)',
+        shadowOffset: { height: 1, width: 3 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+      },
+      headerTitleStyle: {
+        color: '#47466f'
+      },
+      headerBackTitleStyle: {
+        color: '#101010'
+      },
+      headerBackImage: (tintColor, title) => (
+        <Icon name="ios-arrow-back" style={{
+          fontSize: 23, 
+          color: '#101010', 
+          paddingLeft: 15,
+          paddingRight: 7,
+          }} 
+        />
+      )
+    }
   }
 )
 
