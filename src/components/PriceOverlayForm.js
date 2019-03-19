@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Platform } from 'react-native'
 import { Icon } from 'native-base'
 
 import Input from '../components/Input'
@@ -31,7 +31,7 @@ export default class PriceOverlayForm extends React.Component {
         isVisible={this.props.overlayVisible}
         onBackdropPress={this.props.onBackdropPress}
         onDismiss={this.props.onDismiss}
-        overlayStyle={{marginVertical: 220}}
+        overlayStyle={{paddingVertical: Platform.OS === 'android' ? 0 : 220}}
         containerStyle={{marginVertical: 20, marginHorizontal: 30}}
       >
         <Input
