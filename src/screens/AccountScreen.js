@@ -11,13 +11,24 @@ class AccountScreen extends React.Component {
     header: null,
   }
 
+  componentWillMount() {
+    const onFocus = () => {
+      if (this.props.navigation.getParam('shouldComponentUpdate')) this.forceUpdate()
+    }
+    this.listener = this.props.navigation.addListener('willFocus', onFocus)
+  }
+
+  componentWillUnmount() {
+    this.listener.remove()
+  }
+
   navigateToPhone = () => {
     this.props.navigation.navigate('VerifyPhoneNumber')
   }
 
   signOut = () => {
     signOut()
-    this.props.navigation.navigate('SignedOut') // UNSAFE
+    this.props.navigation.navigate('SignedOut')
   }
 
   render() {
