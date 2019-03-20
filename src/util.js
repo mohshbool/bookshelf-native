@@ -105,18 +105,20 @@ export const getCurrentDate = () => {
 }
 
 // A helper function for react-native-firebase push notification
-export const pushLocalNotification = (title, message) => {
+export const pushLocalNotification = (title, message, time) => {
 	PushNotification.configure({
 		onNotification: notification => {
-			console.warn(notification)
+			console.log(notification)
 			notification.finish(PushNotificationIOS.FetchResult.NoData)
+			console.log('herre')
 		},
 		popInitialNotification: true,
 		requestPermissions: true,
 	})
-	PushNotification.localNotification({
-		title,
-		message,
+	PushNotification.localNotificationSchedule({
+		title: title,
+		message: message,
+		date: new Date(Date.now() + (60 * time))
 	})
 }
 

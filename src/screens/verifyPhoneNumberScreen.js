@@ -42,6 +42,22 @@ class verifyPhoneNumberScreen extends React.Component {
     this.props.updateForm({ phoneNumber: phone })
   }
 
+  alertError = (title, message) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: 'Okay',
+          style: 'destructive',
+          onPress: () => {
+            this.props.updateVisibilty(false)
+          }
+        }
+      ]
+    )
+  }
+
   sendVerificationCode = () => {
     let phone = this.props.phoneNumber
     console.log(this.props.sendVerification)
@@ -54,7 +70,6 @@ class verifyPhoneNumberScreen extends React.Component {
         reportInfo(this.props.sendVerification.error, 'danger')
       })
     } else {
-      //TODO ERROR REPORTING ON THE FORMAT BEING INVALID
       reportInfo('Invalid phone number format', 'danger')
     }
   }
@@ -65,40 +80,31 @@ class verifyPhoneNumberScreen extends React.Component {
       this.props.confirmVerificationCode(verificationId, userCode).then(credntial => {
         console.log('creating the credntial worked')
         this.props.addToDB(credntial).then(() => {
-          //TODO PHONE VERIFICATION SUCCESS
-          //TODO PUSH NOTIFICATION
-          // --UNSAFE--
-          //pushLocalNotification('Success', 'Your phone number is now verified. You can add books now.')
-          this.props.updateVisibilty(false)
-          this.props.navigation.navigate('Account')
-          console.log("EVERYTHING WORKED!!!")
-        }).catch(() => {
-          //TODO ERROR REPORTING ON A PROBLEM WITH ADDING THE PHONE TO THE DATABASE
-          //reportInfo('There was a problem adding your verified phone number to the database', 'danger')
-          console.log(this.props.addPhoneToDB)
           Alert.alert(
-            'Invalid Verification Code',
-            this.props.addPhoneToDB,
+            'Success',
+            'Your phone number is now verified. You can add books now.',
             [
               {
                 text: 'Okay',
-                style: 'destructive',
+                style: 'default',
                 onPress: () => {
                   this.props.updateVisibilty(false)
-                  setTimeout(this.forceUpdate, 10)
+                  this.props.navigation.navigate('Account', { shouldComponentUpdate: true })
                 }
               }
             ]
           )
+        }).catch(() => {
+          console.log(this.props.addPhoneToDB)
+          this.alertError('Invalid Verification Code', this.props.addPhoneToDB)
         })
       }).catch(() => {
-        //TODO ERROR REPORTING ON PROBLEMS WITH VERIFYING THE CODE
-        //reportInfo('There was a problem verifying your phone number', 'danger')
+        this.alertError('An error occured', 'There was a problem verifying your phone number')
         console.log(this.props.confirmVerification)
       })
     }
     else {
-    //ERROR REPORTING ON A PROBLEM OCCURING
+    this.alertError('An error occured', 'Please try again later.')
     }
   }
 

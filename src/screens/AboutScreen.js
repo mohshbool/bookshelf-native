@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Platform, Linking, TouchableOpacity, TouchableNativeFeedback } from 'react-native'
-import { Container, Content, Button, Icon,  } from 'native-base'
+import { Container, Content, Icon } from 'native-base'
 import Overlay from '../components/Overlay'
 
 export default class AboutScreen extends React.Component {

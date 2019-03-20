@@ -111,13 +111,10 @@ export const verifyPhoneNumber = {
     firebase.auth().currentUser.updatePhoneNumber(phoneCredintial)
     .then(() => {
       const { uid } = firebase.auth().currentUser
-      let updates = {}
-      // THERE IS A PROBLEM ON THIS LINE
-      // OVERWRITES ALL DATA AT LOCATION
-      updates['users/' + uid] = {
+      let updates = {
         isPhoneVerified: true,
       }
-      firebase.database().ref().update(updates)
+      firebase.database().ref('users/' + uid).update(updates)
       resolve()
     })
     .catch(err => {
