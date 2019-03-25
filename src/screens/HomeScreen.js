@@ -7,14 +7,15 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux'
-import { Root, Container, Header, Item, Input, Icon, Button, Content } from 'native-base'
+import { Root, Container, Header, Item, Input, Icon, Spinner, Content } from 'native-base'
 import ListingRow from '../components/ListingRow'
 
 import { updateUserActionCreator } from '../actions/userActionCreators'
 import { 
   getListingsActionCreator, 
   updateSearchInputActionCreator, 
-  updateListingActionCreator
+  updateListingActionCreator,
+  emptyListingsActionCreator,
 } from '../actions/homeActionCrerators'
 
 import { getUser } from '../api/firebase'
@@ -40,20 +41,11 @@ class HomeScreen extends React.Component {
 
   handleSearchChange = q => {
     this.props.updateSearch(q)
-  }
-
-  updateList = () => {
-    this.props.getListings(this.props.searchValue)
-  }
-
-  validate = () => {
-    const q = this.props.searchValue
-    if (q === '' || !q) {
-      return true
-    }
-    else {
-      return false
-    }
+    if (this.delay) clearTimeout(this.delay)
+    setTimeout(this.props.emptyListings, 2800)
+    this.delay = setTimeout(() => {
+      this.props.getListings(q)
+    }, 3000)
   }
 
   _renderItem = ({item}) => {
@@ -64,9 +56,13 @@ class HomeScreen extends React.Component {
     return <ListingRow listing={item} onPress={onPress}/>
   }
   _keyExtractor = (item, index) => item.id
+  _ListEmptyComponent = (
+    <View style={styles.ListEmptyComponent}>
+      <Spinner size="large" color="#47466f" />
+    </View>
+  )
 
   render() {
-    console.log(this.props.searchValue)
     return (
       <Root>
         <Container>
@@ -77,16 +73,11 @@ class HomeScreen extends React.Component {
                 placeholder="Search"
                 value={this.props.searchValue}
                 onChangeText={this.handleSearchChange}
-                onSubmitEditing={() => this.author.focus() }
               />
+              {!this.props.listings[Object.keys(this.props.listings)[0]].id && (
+                <Spinner style={styles.loading} size="small" color="#47466f"/>
+              )}
             </Item>
-            <Button 
-              transparent 
-              onPress={this.updateList} 
-              disabled={this.validate()}
-            >
-              <Text style={{ color: '#c7c7d3' }}>Search</Text>
-            </Button>
           </Header>
           <Content 
             contentContainerStyle={styles.container} 
@@ -96,7 +87,7 @@ class HomeScreen extends React.Component {
               data={objectToArray(this.props.listings)}
               renderItem={this._renderItem}
               keyExtractor={this._keyExtractor}
-              ListEmptyComponent={<View style={{flex:1}} />}
+              ListEmptyComponent={this._ListEmptyComponent}
             />
           </Content>
         </Container>
@@ -107,12 +98,19 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#47466f'
+    backgroundColor: '#47466f',
   },
   container: {
     paddingHorizontal: 3,
-    paddingTop: 20,
+    paddingTop: 30,
   },
+  loading: {
+    marginRight: 10,
+    marginTop: 2,
+  },
+  ListEmptyComponent: {
+    paddingTop: 100,
+  }
 });
 
 const mapStateToProps = state => ({
@@ -126,7 +124,7 @@ const mapDispatchToProps = {
   getListings: getListingsActionCreator,
   updateSearch: updateSearchInputActionCreator,
   updateListing: updateListingActionCreator,
+  emptyListings: emptyListingsActionCreator,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
-

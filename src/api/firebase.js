@@ -138,6 +138,7 @@ export const addBook = form => {
     const newListingRef = firebase.database().ref('listings').push()
     newListingRef.set({
       ...form,
+      search: form.title.toLowerCase(),
       id: newListingRef.key,
     })
     resolve(newListingRef.key)
@@ -183,7 +184,6 @@ export const getUser = id => {
 }
 
 export const getBooks = q => {
-  console.log(q)
   return new Promise((resolve) => {
     if (q === '' || !q) {
       firebase.database().ref('listings').once('value').then(snapshot => {
@@ -192,8 +192,9 @@ export const getBooks = q => {
       })
     }
     else {
+      q = q.toLowerCase()
       firebase.database().ref('listings')
-      .orderByChild('title').startAt(q).endAt(q + "\uf8ff")
+      .orderByChild('search').startAt(q).endAt(q + "\uf8ff")
       .once('value').then(snapshot => {
         const books = snapshot.val()
         resolve(books)
