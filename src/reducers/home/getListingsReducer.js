@@ -1,4 +1,4 @@
-const initialState = { listing: {
+const initialState = [{
   title: '',
   author: '',
   location: {
@@ -12,7 +12,7 @@ const initialState = { listing: {
   imageUri: '',
   id: '',
   GRimageUrl: '',
-}}
+}]
 
 const getListingsReducer = (state = initialState, action) => {
   switch(action.type) {
@@ -22,6 +22,8 @@ const getListingsReducer = (state = initialState, action) => {
       return action.payload.listings || state
     case 'GET_LISTINGS_REJECTED':
       return action.payload.error || state
+    case 'EMPTY_LISTINGS':
+      return initialState
     default:
       return state
   }

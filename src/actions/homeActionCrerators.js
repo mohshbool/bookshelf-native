@@ -14,6 +14,10 @@ export const getListingsActionCreator = q => dispatch => {
   })
 }
 
+export const emptyListingsActionCreator = () => ({
+  type: 'EMPTY_LISTINGS',
+})
+
 export const updateSearchInputActionCreator = q => ({
   type: 'UPDATE_SEARCH_INPUT',
   payload: q
