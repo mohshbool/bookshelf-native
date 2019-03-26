@@ -60,18 +60,14 @@ export default class AboutScreen extends React.Component {
           </Overlay>
           <View style={styles.aboutDefaultCotainer}>
             <Text style={styles.aboutDefaultText}>
-              About The Developer
+              The Developer
             </Text>
           </View>
           <View style={styles.aboutContainer}>
             <Text style={styles.aboutText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Suspendisse malesuada ante non libero feugiat porta. Nulla eu fringilla risus. 
-              Etiam vitae condimentum magna. Vestibulum consectetur vestibulum ex, ut ultrices 
-              lacus blandit at. Mauris pulvinar hendrerit leo, eget congue nisi sagittis non. 
-              Suspendisse ex sapien, placerat at libero vel, lobortis scelerisque mi. Etiam nec purus sit amet 
-              felis porttitor accumsan varius eu eros. Vestibulum egestas ultrices metus, in sollicitudin est 
-              porta ornare. Sed tempor augue mi, rutrum viverra turpis mattis vel.
+              Mohammad Shbool
+              {"\n"}
+              Amman, Jordan
             </Text>
           </View>
           <View style={styles.buttonGroup}>
@@ -105,9 +101,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#c7c7d3',
   },
   aboutDefaultCotainer: {
-    paddingLeft: 20,
-    paddingTop: 20,
-    paddingBottom: 12,
+    paddingLeft: 22,
+    paddingTop: 50,
+    paddingBottom: 15,
   },
   aboutDefaultText: {
     fontSize: 24,
@@ -116,14 +112,13 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   aboutContainer: {
-    paddingHorizontal: 27,
-    paddingBottom: 20,
+    paddingHorizontal: 28,
+    paddingBottom: 27,
   },
   aboutText: {
-    fontSize: 22,
+    fontSize: 28,
     fontWeight: '400',
     fontFamily: 'Times',
-    fontStyle: 'italic',
     color: 'black'
   },
   overlayStyle: {
@@ -145,7 +140,7 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 30
+    paddingBottom: 60,
   },
   icon: {
     fontSize: 28,
@@ -153,7 +148,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     flexDirection: 'row',
     paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingVertical: 30,
   },
   footerText: {
     fontSize: 24,
