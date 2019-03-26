@@ -122,6 +122,7 @@ class AddBookScreen extends React.Component {
   }
 
   render () {
+    console.log(this.props.form)
     return (
       <Root>
         <Container>
