@@ -42,10 +42,10 @@ class HomeScreen extends React.Component {
   handleSearchChange = q => {
     this.props.updateSearch(q)
     if (this.delay) clearTimeout(this.delay)
-    setTimeout(this.props.emptyListings, 2800)
+    setTimeout(this.props.emptyListings, 1000)
     this.delay = setTimeout(() => {
       this.props.getListings(q)
-    }, 3000)
+    }, 1500)
   }
 
   _renderItem = ({item}) => {

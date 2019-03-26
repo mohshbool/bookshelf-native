@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Courier',
     fontWeight: '500',
+    color: 'black',
   },
   aboutContainer: {
     paddingHorizontal: 27,
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'Times',
     fontStyle: 'italic',
+    color: 'black'
   },
   overlayStyle: {
     marginVertical: 350,
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Courier',
     paddingRight: 20,
     paddingTop: 2,
+    color: 'black',
   },
   footerIcon: {
     fontSize: 24,

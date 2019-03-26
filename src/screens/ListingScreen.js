@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, Platform } from 'react-native'
 import { Icon, Button } from 'native-base'
 import ContactInfoOverlay from '../components/ContactInfoOverlay'
 
@@ -190,7 +190,7 @@ const styles = {
     height: 340,
     marginHorizontal: 8,
     marginVertical: 3,
-    borderRadius: 5,
+    borderRadius: Platform.OS === 'ios' ? 5 : 2,
   },
   user: {
     container: {
@@ -240,7 +240,8 @@ const styles = {
     },
     text: {
       fontSize: 22,
-      fontWeight: '400'
+      fontWeight: '400',
+      color: 'black'
     },
   },
 }
