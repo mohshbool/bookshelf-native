@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   overlayStyle: {
-    marginVertical: 350,
+    marginVertical: 300,
   },
   containerStyle: {
     backgroundColor: '#47466f',

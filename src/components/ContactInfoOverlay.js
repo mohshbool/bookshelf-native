@@ -29,7 +29,7 @@ export default class ContactInfoOverlay extends React.Component {
 
 const styles = {
   overlay: {
-    marginVertical: 300,
+    marginVertical: 240,
     marginHorizontal: 20,
   },
   container: {
