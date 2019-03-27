@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { Icon } from 'native-base'
 
 import Input from '../components/Input'
@@ -31,8 +31,8 @@ export default class PriceOverlayForm extends React.Component {
         isVisible={this.props.overlayVisible}
         onBackdropPress={this.props.onBackdropPress}
         onDismiss={this.props.onDismiss}
-        overlayStyle={{paddingVertical: Platform.OS === 'android' ? 0 : 100}}
-        containerStyle={{marginVertical: 20, marginHorizontal: 30}}
+        overlayStyle={styles.overlay}
+        containerStyle={styles.container}
       >
         <Input
           placeholder="Price"
@@ -40,17 +40,45 @@ export default class PriceOverlayForm extends React.Component {
           onChangeText={this.handePriceChange}
           maxLength={4}
           keyboardType="number-pad"
-          containerStyle={{ margin: 8, marginRight: 20 }}
-          icon={<Icon name='ios-pricetag' style={{fontSize: 26}} />}
+          containerStyle={styles.inputContainer}
+          icon={<Icon name='ios-pricetag' style={styles.icon} />}
         />
         <Button
           title="Confirm" 
           onPress={() => this.props.onConfirm(this.state.price)}
-          containerStyle={{ marginHorizontal: 40, marginTop: 40 }}
-          buttonStyle={{ paddingVertical: 10 }}
+          containerStyle={styles.buttonContainer}
+          buttonStyle={styles.button}
           disabled={!this.state.isPriceValid}
         ></Button>
     </Overlay>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  overlay: {
+    paddingVertical: Platform.OS === 'android' ? 0 : 100,
+  },
+  container: {
+    marginVertical: 20, 
+    marginHorizontal: 20,
+    backgroundColor: '#c7c7d3',
+    borderColor: '#47466f',
+    borderWidth: 6,
+    borderRadius: 15,
+  },
+  inputContainer: {
+    margin: 8, 
+    marginRight: 20,
+  },
+  icon: {
+    fontSize: 26,
+  },
+  buttonContainer: { 
+    marginHorizontal: 40, 
+    marginTop: 40,
+  },
+  button: {
+    paddingVertical: 10,
+  },
+})
