@@ -35,7 +35,7 @@ export default class OverlayForm extends React.Component {
             maxLength={6}
             keyboardType="number-pad"
             containerStyle={{ marginVertical: 10 }}
-            iIcon={<Icon type='MaterialCommunityIcons' name='message' style={{fontSize: 26}} />}
+            icon={<Icon type='MaterialCommunityIcons' name='message' style={{fontSize: 26}} />}
           />
           <Button
             title="Verify" 
@@ -52,10 +52,14 @@ export default class OverlayForm extends React.Component {
 
 const styles = StyleSheet.create({
   overlay: {
-    marginVertical: 200,
+    marginVertical: 150,
   },
   container: {
     marginHorizontal: 20,
+    backgroundColor: '#c7c7d3',
+    borderColor: '#47466f',
+    borderWidth: 6,
+    borderRadius: 15,
   },
   buttonContainer: {
     marginHorizontal: 20, 

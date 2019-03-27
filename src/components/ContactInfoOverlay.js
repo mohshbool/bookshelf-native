@@ -37,6 +37,10 @@ const styles = {
     alignItems: 'center',
     marginVertical: 5,
     paddingHorizontal: 15,
+    backgroundColor: '#c7c7d3',
+    borderColor: '#47466f',
+    borderWidth: 6,
+    borderRadius: 15,
   },
   email: {
     container: {
