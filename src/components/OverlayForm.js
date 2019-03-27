@@ -52,7 +52,7 @@ export default class OverlayForm extends React.Component {
 
 const styles = StyleSheet.create({
   overlay: {
-    marginVertical: 250,
+    marginVertical: 200,
   },
   container: {
     marginHorizontal: 20,
