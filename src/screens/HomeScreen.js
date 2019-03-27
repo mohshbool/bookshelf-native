@@ -3,7 +3,7 @@ import {
   Platform,
   FlatList,
   StyleSheet,
-  Text,
+  RefreshControl,
   View,
 } from 'react-native';
 import { connect } from 'react-redux'
@@ -24,6 +24,11 @@ class HomeScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
     header: null,
+  }
+
+  isListEmpty = () => {
+    const { listings }  = this.props
+    return !listings[Object.keys(listings)[0]].id
   }
 
   componentWillMount() {
@@ -55,6 +60,16 @@ class HomeScreen extends React.Component {
     }
     return <ListingRow listing={item} onPress={onPress}/>
   }
+  _refreshControl = (
+    <RefreshControl 
+      refreshing={!this.isListEmpty()}
+      onRefresh={() => {
+        if (this.props.searchValue) this.props.updateSearch('')
+        this.props.emptyListings()
+        this.props.getListings()
+      }}
+    />
+  )
   _keyExtractor = (item, index) => item.id
   _ListEmptyComponent = (
     <View style={styles.ListEmptyComponent}>
@@ -74,7 +89,7 @@ class HomeScreen extends React.Component {
                 value={this.props.searchValue}
                 onChangeText={this.handleSearchChange}
               />
-              {!this.props.listings[Object.keys(this.props.listings)[0]].id && (
+              {this.isListEmpty() && (
                 <Spinner style={styles.loading} size="small" color="#47466f"/>
               )}
             </Item>
@@ -82,6 +97,7 @@ class HomeScreen extends React.Component {
           <Content 
             contentContainerStyle={styles.container} 
             style={{backgroundColor: '#c7c7d3'}}
+            refreshControl={this._refreshControl}
           >
             <FlatList 
               data={objectToArray(this.props.listings)}
