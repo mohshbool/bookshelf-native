@@ -51,11 +51,13 @@ const styles = {
       fontSize: 30,
       marginRight: 20,
       marginTop: 5,
+      color: 'black',
     },
     text: {
       fontSize: 27,
       fontWeight: '400',
       fontStyle: 'italic',
+      color: 'black',
     },
   },
   phone: {
@@ -67,10 +69,12 @@ const styles = {
       fontSize: 30,
       marginRight: 20,
       marginTop: 5,
+      color: 'black',
     },
     text: {
       fontSize: 26,
       fontWeight: '500',
+      color: 'black',
     },
   },
 
