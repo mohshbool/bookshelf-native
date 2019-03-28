@@ -157,15 +157,11 @@ class AddBookScreen extends React.Component {
                     onSubmitEditing={() => this.author.focus() }
                   />
                 <TouchableOpacity 
-                  style={{ marginTop: 3, marginLeft: 14 }}
+                  style={styles.suggestionContainer}
                   hitSlop={{top: 5, left: 1, bottom: 5, right: 5}}
                   onPress={this.handleSuggestion}
                 >
-                  <Text style={{ 
-                    fontSize: 10, 
-                    fontStyle: 'italic', 
-                    fontWeight: '400' 
-                    }}
+                  <Text style={styles.suggestionText}
                   >
                     {this.props.suggestion.title && 
                     `Did you mean ${this.props.suggestion.title}`}
@@ -236,13 +232,13 @@ class AddBookScreen extends React.Component {
                   />}
                   onPress={this.handleChooseImage}
                   buttonStyle={{ paddingVertical: 10 }}
-                  containerStyle={styles.buttonContainerStyle}
+                  containerStyle={styles.imageButtonContainerStyle}
                 />
                 <Button
                   title="Submit" 
                   onPress={this.submit}
-                  buttonStyle={{ paddingVertical: 15 }}
-                  containerStyle={styles.buttonContainerStyle}
+                  buttonStyle={{ paddingVertical: 12 }}
+                  containerStyle={styles.submitButtonContainer}
                   disabled={!this.props.isFormValid}
                 />
               </View>
@@ -259,12 +255,26 @@ const styles = {
     alignContent: 'center',
     margin: 5, 
     paddingHorizontal: 10, 
-    paddingTop: 60
+    paddingTop: 30,
   },
-  containerStyle : { marginVertical: 7.5 },
-  buttonContainerStyle: {
-    marginVertical: 20,
+  containerStyle : { marginVertical: 5 },
+  suggestionContainer: {
+    marginTop: 3, 
+    marginLeft: 18,
+  },
+  suggestionText: {
+    fontSize: 13, 
+    fontStyle: 'italic', 
+    fontWeight: '400',
+  },
+  imageButtonContainerStyle: {
+    marginTop: 20,
+    marginBottom: 15,
     marginHorizontal: 10,
+  },
+  submitButtonContainer: {
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   locationContainer: {
     marginVertical: 20,
@@ -284,6 +294,7 @@ const styles = {
     marginHorizontal: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#808080',
+    color: 'black',
   },
 }
 
