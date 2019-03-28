@@ -141,7 +141,7 @@ const styles = {
       marginHorizontal: 15,
     },
     text: {
-      fontSize: 26,
+      fontSize: 24,
       color: '#f9f7e2',
     }
   },
@@ -186,11 +186,13 @@ const styles = {
     },
   ],
   image: {
-    width: 225,
-    height: 340,
+    minWidth: 220,
+    maxWidth: 250,
+    minHeight: 320,
+    maxHeight: 350,
     marginHorizontal: 8,
     marginVertical: 3,
-    borderRadius: Platform.OS === 'ios' ? 5 : 2,
+    borderRadius: Platform.OS === 'ios' ? 10 : 2,
   },
   user: {
     container: {
@@ -256,6 +258,7 @@ const pricingStyles = {
       backgroundColor: getBackgoundColor(type),
       borderWidth: 0.6,
       borderColor:  '#7c7c7c',
+      borderRadius: 1,
       paddingVertical: 3,
       paddingHorizontal: 10,
       marginBottom: 15,
