@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
+    maxHeight: 120
   },
   title: {
     fontSize: 20,
