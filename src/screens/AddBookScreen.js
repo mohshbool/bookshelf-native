@@ -197,9 +197,9 @@ class AddBookScreen extends React.Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined }}
+                      style={{ width: undefined, color: 'black' }}
                       placeholder="Choose the type of listing"
-                      textStyle={{fontSize: 17, color: '#47466f'}}
+                      textStyle={{fontSize: 17}}
                       selectedValue={this.props.form.type}
                       onValueChange={this.handleTypeChange}
                     >
@@ -265,7 +265,8 @@ const styles = {
   suggestionText: {
     fontSize: 13, 
     fontStyle: 'italic', 
-    fontWeight: '400',
+    fontWeight: '500',
+    color: '#47466f',
   },
   imageButtonContainerStyle: {
     marginTop: 20,
