@@ -212,7 +212,7 @@ class AddBookScreen extends React.Component {
                 <Form style={styles.form}>
                   <Textarea 
                     rowSpan={3}  
-                    placeholder={"Write a short descreption about your book." + 
+                    placeholder={"Write a short description about your book." + 
                       " Condition, location details or other details"} 
                     placeholderTextColor="#7e7d9a"
                     style={{ fontSize: 17 }}
