@@ -113,8 +113,10 @@ class RegisterScreen extends React.Component {
   render() {
     return (
       <Container>
-        <KeyboardAwareScrollView style={{backgroundColor: '#c7c7d3'}}>
-          <View style={styles.container}>
+        <KeyboardAwareScrollView 
+          style={{backgroundColor: '#c7c7d3'}} 
+          contentContainerStyle={styles.container}
+        >
           <Input
             placeholder="Username"
             value={this.props.user.username.value}
@@ -177,7 +179,7 @@ class RegisterScreen extends React.Component {
             containerStyle={styles.registerButton}
             buttonStyle={{ paddingVertical: 10 }}
             disabled={!this.props.isValid}
-          ></Button>
+          />
           <TouchableOpacity style={{alignSelf: 'center', marginVertical: 10 }}
             onPress={() => this.props.navigation.navigate('Login')}
             hitSlop={{top: 15, bottom: 15, left: 10, right: 10}}
@@ -189,19 +191,19 @@ class RegisterScreen extends React.Component {
               </Text>
             </Text>
           </TouchableOpacity>
-        </View>
-    </KeyboardAwareScrollView>
-   </Container>
+        </KeyboardAwareScrollView>
+      </Container>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
+    justifyContent: 'center',
     alignContent: 'center',
     margin: 5, 
     paddingHorizontal: 10, 
-    paddingTop: 70,
   },
   containerStyle : { 
     marginVertical: 7.5 
