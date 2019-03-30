@@ -118,7 +118,9 @@ class AddBookScreen extends React.Component {
     const success = () => {
       reportInfo('Your post was added', null, null, 'top')
       this.props.clearForm()
-      setTimeout(() => this.props.navigation.navigate("Home"), 10)
+      setTimeout(() => this.props.navigation.navigate("Home", {
+        shouldComponentUpdate: true
+      }), 10)
     }
 
     // IF USER DIDNT PROVIDE IMAGE, A SUGGESTION MUST BE CHOSEN.
