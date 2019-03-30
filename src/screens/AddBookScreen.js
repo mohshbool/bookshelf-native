@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { Root, Container, Content, Form, Item, Picker, Icon, Textarea } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -20,12 +20,19 @@ import {
   clearFormActionCreator
 } from '../actions/addBookActionCreators'
 
-import { reportInfo } from '../util'
+import { reportInfo, trimAll } from '../util'
 
 class AddBookScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
     header: null,
+  }
+
+  componentWillMount() {
+    const { form, updateForm } = this.props
+    if (!form.type && Platform.OS === 'android') {
+      updateForm({ type: 'free' })
+    }
   }
 
   validateForm = () => setTimeout(() => {
@@ -39,6 +46,15 @@ class AddBookScreen extends React.Component {
       this.props.updateFormValidity(true)
     }
   }, 10)
+
+  formatForm = form => {
+    const { title, author, descreption } = form
+    return {
+      title: trimAll(title),
+      author: trimAll(author),
+      descreption: trimAll(descreption),
+    }
+  }
 
   handleTitleChange = title => {
     this.props.updateForm({ title })
@@ -110,6 +126,8 @@ class AddBookScreen extends React.Component {
     if (!this.props.form.imageUri && this.props.suggestion.imageUrl) {
       this.props.updateForm({ imageUri: this.props.form.GRimageUrl })
     }
+
+    this.props.updateForm(this.formatForm(this.props.form))
 
     setTimeout(() => this.props.addBook({uid: this.props.uid, ...this.props.form}).then(postId => {
       if (this.props.form.imageUri !== this.props.form.GRimageUrl) {
@@ -197,9 +215,10 @@ class AddBookScreen extends React.Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined, color: 'black' }}
+                      style={{ width: undefined }}
                       placeholder="Choose the type of listing"
-                      textStyle={{fontSize: 17}}
+                      placeholderStyle={{ color: '#7e7d9a' }}
+                      textStyle={{ fontSize: 17, color: 'black' }}
                       selectedValue={this.props.form.type}
                       onValueChange={this.handleTypeChange}
                     >
