@@ -241,7 +241,7 @@ const styles = {
       borderBottomColor: '#4c4c4c',
     },
     text: {
-      fontSize: 22,
+      fontSize: 20,
       fontWeight: '400',
       color: 'black'
     },
