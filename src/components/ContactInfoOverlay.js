@@ -1,11 +1,18 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Linking, Platform, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
 import { Icon } from 'native-base'
 
 import Overlay from './Overlay'
 
+import { formatOnE164 } from '../util'
+
 export default class ContactInfoOverlay extends React.Component {
+  openCallApp = () => {
+    Linking.openURL(`tel:${formatOnE164(this.props.phoneNumber)}`)
+  }
+
   render() {
+    const TouchableComponent = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback
     const { isVisible, onDismiss, email, phoneNumber } = this.props
     return (
       <Overlay 
@@ -18,10 +25,15 @@ export default class ContactInfoOverlay extends React.Component {
           <Icon name="ios-mail" style={styles.email.icon} />
           <Text style={styles.email.text}>{email}</Text>
         </View>
-        <View style={styles.phone.container}>
-          <Icon name="ios-call" style={styles.phone.icon} />
-          <Text style={styles.phone.text}>{phoneNumber}</Text>
-        </View>
+        <TouchableComponent 
+          activeOpacity={0.9}
+          onPress={this.openCallApp}
+        >
+          <View style={styles.phone.container}>
+            <Icon name="ios-call" style={styles.phone.icon} />
+            <Text style={styles.phone.text}>{phoneNumber}</Text>
+          </View>
+        </TouchableComponent>
       </Overlay>
     )
   }
