@@ -15,6 +15,7 @@ export default class Overlay extends React.Component {
         isVisible={this.props.isVisible || this.state.visible}
         avoidKeyboard={this.props.avoidKeyboard || false}
         onBackdropPress={this.props.onBackdropPress || this.handleBackdropPress}
+        onBackButtonPress={this.props.onBackdropPress || this.handleBackdropPress}
         animationIn={this.props.animationIn || 'fadeInUp'}
         animationInTiming={this.props.animationInTiming || 300}
         animationOut={this.props.animationOut || 'fadeOutUp'}
