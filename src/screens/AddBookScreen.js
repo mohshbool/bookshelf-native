@@ -217,7 +217,7 @@ class AddBookScreen extends React.Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined }}
+                      style={{ width: undefined, color: 'black' }}
                       placeholder="Choose the type of listing"
                       placeholderStyle={{ color: '#7e7d9a' }}
                       textStyle={{ fontSize: 17, color: 'black' }}
