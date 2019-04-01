@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
     color: '#f9f7e2',
   },
   author: {
-    fontSize: 18,
+    fontSize: 16,
     fontStyle: 'italic',
     color: '#aba991',
   },
   location: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#c0c0c0',
   }
 })
