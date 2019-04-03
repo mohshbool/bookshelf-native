@@ -58,11 +58,15 @@ class AddBookScreen extends React.Component {
 
   handleTitleChange = title => {
     this.props.updateForm({ title })
-    if (title.length > 1)
-      this.props.getBooks(title).then(books => {
-        this.props.updateSuggestion({...books[0]})
-        console.log(books)
-      }).catch(() => {})
+    if (title.length > 1) {
+      if (this.delay) clearTimeout(this.delay)
+      this.delay = setTimeout(() => {
+        this.props.getBooks(title).then(books => {
+          this.props.updateSuggestion({...books[0]})
+          console.log(books)
+        }).catch(() => {})
+      }, 30)
+    }
     else {
       this.props.updateSuggestion({id: '', title: ''})
     }
