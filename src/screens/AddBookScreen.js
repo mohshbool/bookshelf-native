@@ -151,15 +151,18 @@ class AddBookScreen extends React.Component {
               overlayVisible={this.props.isOverlayVisible}
               onBackdropPress={() => {
                 this.props.updateOverlayVisibility(false)
+                if (!this.props.form.price){
+                  reportInfo('You need to have a price when selling', 'warning', null, 'top')
+                  this.props.updateForm({ 
+                    type: Platform.OS === 'android' ? 'free' : '', 
+                    price: '' 
+                  })
+                }
               }}
               onConfirm={price => {
                 this.props.updateOverlayVisibility(false)
                 this.props.updateForm({ price })
                 this.validateForm()
-              }}
-              onDismiss={() => {
-                reportInfo('You need to have a price when selling', 'warning')
-                this.props.updateForm({ type: '', price: '' })
               }}
               basePrice={this.props.form.price}
             />
