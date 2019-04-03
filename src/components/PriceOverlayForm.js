@@ -30,7 +30,6 @@ export default class PriceOverlayForm extends React.Component {
       <Overlay 
         isVisible={this.props.overlayVisible}
         onBackdropPress={this.props.onBackdropPress}
-        onDismiss={this.props.onDismiss}
         overlayStyle={styles.overlay}
         containerStyle={styles.container}
       >
