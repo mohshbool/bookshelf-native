@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 8,
     marginBottom: 1,
-    backgroundColor: '#47466f'
+    backgroundColor: '#47466f',
+    alignItems: 'center',
   },
   imageContainer: {
     marginVertical: 2,
@@ -85,8 +86,9 @@ const styles = StyleSheet.create({
   },
   image: { 
     flex: 1,
-    minWidth: 75, 
-    minHeight: 100, 
+    minWidth: 80, 
+    minHeight: 110, 
+    maxHeight: 120,
     borderRadius: 2,
   },
   text: {
@@ -98,18 +100,19 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
+    maxHeight: 120
   },
   title: {
     fontSize: 20,
     color: '#f9f7e2',
   },
   author: {
-    fontSize: 18,
+    fontSize: 16,
     fontStyle: 'italic',
     color: '#aba991',
   },
   location: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#c0c0c0',
   }
 })

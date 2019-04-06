@@ -104,6 +104,26 @@ export const getCurrentDate = () => {
 	})
 }
 
+// A function to trim all whitespace, new line and dot characters
+export const trimAll = string => {
+	let str = []
+	for (let i = 0; i < string.length; i++) {
+		str.push(string[i])
+  }
+	str = str.join('')
+	const l = str.length - 1
+	while(true) {
+		if (
+			str[0] === ' ' || str[0] === '.' || str[0] === '\n' ||
+			str[l] === ' ' || str[l] === '.' || str[l] === '\n') {
+				str = str.trim().replace(/^\.+/, "").replace(/\.+$/, "")
+				continue
+		} else {
+			return str
+		}
+	}
+}
+
 // A helper function for react-native-firebase push notification
 export const pushLocalNotification = (title, message, time) => {
 	PushNotification.configure({
