@@ -42,6 +42,12 @@ class HomeScreen extends React.Component {
 
     // Fetch posts to be used within this page
     this.props.getListings()
+
+    // Force update after book addition
+    const onFocus = () => {
+      if (this.props.navigation.getParam('shouldComponentUpdate')) this.forceUpdate()
+    }
+    this.listener = this.props.navigation.addListener('willFocus', onFocus)
   }
 
   handleSearchChange = q => {

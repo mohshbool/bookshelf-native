@@ -62,38 +62,39 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Container>
-        <KeyboardAwareScrollView style={{backgroundColor: '#c7c7d3'}}>
-          <View style={styles.container}>
-            <Input
-              autoFocus
-              placeholder="E-mail"
-              value={this.props.user.email}
-              onChangeText={this.handleEmailChange}
-              textContentType="username"
-              containerStyle={styles.containerStyle}
-              icon={<Icon name='ios-mail' style={styles.icon} />}
-              onSubmitEditing={() => this.password.focus()}
-            />
-            <Input
-              placeholder="Password"
-              value={this.props.user.password}
-              onChangeText={this.handlePasswordChange}
-              textContentType="password"
-              secureTextEntry
-              contextMenuHidden
-              containerStyle={styles.containerStyle}
-              inputStyle={styles.inputStyle}
-              icon={<Icon name='ios-lock' style={styles.icon} />}
-              ref={input => this.password = input}
-            />
-            <Button 
-              title="Log In" 
-              onPress={this.login}
-              containerStyle={styles.button}
-              buttonStyle={{paddingVertical: 10}}
-              disabled={!this.props.isValid}
-            />
-          </View>
+        <KeyboardAwareScrollView 
+          style={{backgroundColor: '#c7c7d3'}}
+          contentContainerStyle={styles.container}
+        >
+          <Input
+            autoFocus
+            placeholder="E-mail"
+            value={this.props.user.email}
+            onChangeText={this.handleEmailChange}
+            textContentType="username"
+            containerStyle={styles.containerStyle}
+            icon={<Icon name='ios-mail' style={styles.icon} />}
+            onSubmitEditing={() => this.password.focus()}
+          />
+          <Input
+            placeholder="Password"
+            value={this.props.user.password}
+            onChangeText={this.handlePasswordChange}
+            textContentType="password"
+            secureTextEntry
+            contextMenuHidden
+            containerStyle={styles.containerStyle}
+            inputStyle={styles.inputStyle}
+            icon={<Icon name='ios-lock' style={styles.icon} />}
+            ref={input => this.password = input}
+          />
+          <Button 
+            title="Log In" 
+            onPress={this.login}
+            containerStyle={styles.button}
+            buttonStyle={{paddingVertical: 10}}
+            disabled={!this.props.isValid}
+          />
         </KeyboardAwareScrollView>
       </Container>
     )

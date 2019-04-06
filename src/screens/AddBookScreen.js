@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { Root, Container, Content, Form, Item, Picker, Icon, Textarea } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -20,12 +20,19 @@ import {
   clearFormActionCreator
 } from '../actions/addBookActionCreators'
 
-import { reportInfo } from '../util'
+import { reportInfo, trimAll } from '../util'
 
 class AddBookScreen extends React.Component {
   static navigationOptions = {
     headerVisible: false,
     header: null,
+  }
+
+  componentWillMount() {
+    const { form, updateForm } = this.props
+    if (!form.type && Platform.OS === 'android') {
+      updateForm({ type: 'free' })
+    }
   }
 
   validateForm = () => setTimeout(() => {
@@ -40,13 +47,26 @@ class AddBookScreen extends React.Component {
     }
   }, 10)
 
+  formatForm = form => {
+    const { title, author, descreption } = form
+    return {
+      title: trimAll(title),
+      author: trimAll(author),
+      descreption: trimAll(descreption),
+    }
+  }
+
   handleTitleChange = title => {
     this.props.updateForm({ title })
-    if (title.length > 1)
-      this.props.getBooks(title).then(books => {
-        this.props.updateSuggestion({...books[0]})
-        console.log(books)
-      }).catch(() => {})
+    if (title.length > 1) {
+      if (this.delay) clearTimeout(this.delay)
+      this.delay = setTimeout(() => {
+        this.props.getBooks(title).then(books => {
+          this.props.updateSuggestion({...books[0]})
+          console.log(books)
+        }).catch(() => {})
+      }, 30)
+    }
     else {
       this.props.updateSuggestion({id: '', title: ''})
     }
@@ -102,7 +122,9 @@ class AddBookScreen extends React.Component {
     const success = () => {
       reportInfo('Your post was added', null, null, 'top')
       this.props.clearForm()
-      setTimeout(() => this.props.navigation.navigate("Home"), 10)
+      setTimeout(() => this.props.navigation.navigate("Home", {
+        shouldComponentUpdate: true
+      }), 10)
     }
 
     // IF USER DIDNT PROVIDE IMAGE, A SUGGESTION MUST BE CHOSEN.
@@ -110,6 +132,8 @@ class AddBookScreen extends React.Component {
     if (!this.props.form.imageUri && this.props.suggestion.imageUrl) {
       this.props.updateForm({ imageUri: this.props.form.GRimageUrl })
     }
+
+    this.props.updateForm(this.formatForm(this.props.form))
 
     setTimeout(() => this.props.addBook({uid: this.props.uid, ...this.props.form}).then(postId => {
       if (this.props.form.imageUri !== this.props.form.GRimageUrl) {
@@ -131,15 +155,18 @@ class AddBookScreen extends React.Component {
               overlayVisible={this.props.isOverlayVisible}
               onBackdropPress={() => {
                 this.props.updateOverlayVisibility(false)
+                if (!this.props.form.price){
+                  reportInfo('You need to have a price when selling', 'warning', null, 'top')
+                  this.props.updateForm({ 
+                    type: Platform.OS === 'android' ? 'free' : '', 
+                    price: '' 
+                  })
+                }
               }}
               onConfirm={price => {
                 this.props.updateOverlayVisibility(false)
                 this.props.updateForm({ price })
                 this.validateForm()
-              }}
-              onDismiss={() => {
-                reportInfo('You need to have a price when selling', 'warning')
-                this.props.updateForm({ type: '', price: '' })
               }}
               basePrice={this.props.form.price}
             />
@@ -157,15 +184,11 @@ class AddBookScreen extends React.Component {
                     onSubmitEditing={() => this.author.focus() }
                   />
                 <TouchableOpacity 
-                  style={{ marginTop: 3, marginLeft: 14 }}
+                  style={styles.suggestionContainer}
                   hitSlop={{top: 5, left: 1, bottom: 5, right: 5}}
                   onPress={this.handleSuggestion}
                 >
-                  <Text style={{ 
-                    fontSize: 10, 
-                    fontStyle: 'italic', 
-                    fontWeight: '400' 
-                    }}
+                  <Text style={styles.suggestionText}
                   >
                     {this.props.suggestion.title && 
                     `Did you mean ${this.props.suggestion.title}`}
@@ -201,9 +224,10 @@ class AddBookScreen extends React.Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined }}
+                      style={{ width: undefined, color: 'black' }}
                       placeholder="Choose the type of listing"
-                      textStyle={{fontSize: 17, color: '#47466f'}}
+                      placeholderStyle={{ color: '#7e7d9a' }}
+                      textStyle={{ fontSize: 17, color: 'black' }}
                       selectedValue={this.props.form.type}
                       onValueChange={this.handleTypeChange}
                     >
@@ -216,7 +240,7 @@ class AddBookScreen extends React.Component {
                 <Form style={styles.form}>
                   <Textarea 
                     rowSpan={3}  
-                    placeholder={"Write a short descreption about your book." + 
+                    placeholder={"Write a short description about your book." + 
                       " Condition, location details or other details"} 
                     placeholderTextColor="#7e7d9a"
                     style={{ fontSize: 17 }}
@@ -236,13 +260,13 @@ class AddBookScreen extends React.Component {
                   />}
                   onPress={this.handleChooseImage}
                   buttonStyle={{ paddingVertical: 10 }}
-                  containerStyle={styles.buttonContainerStyle}
+                  containerStyle={styles.imageButtonContainerStyle}
                 />
                 <Button
                   title="Submit" 
                   onPress={this.submit}
-                  buttonStyle={{ paddingVertical: 15 }}
-                  containerStyle={styles.buttonContainerStyle}
+                  buttonStyle={{ paddingVertical: 12 }}
+                  containerStyle={styles.submitButtonContainer}
                   disabled={!this.props.isFormValid}
                 />
               </View>
@@ -259,12 +283,27 @@ const styles = {
     alignContent: 'center',
     margin: 5, 
     paddingHorizontal: 10, 
-    paddingTop: 60
+    paddingTop: 30,
   },
-  containerStyle : { marginVertical: 7.5 },
-  buttonContainerStyle: {
-    marginVertical: 20,
+  containerStyle : { marginVertical: 5 },
+  suggestionContainer: {
+    marginTop: 3, 
+    marginLeft: 18,
+  },
+  suggestionText: {
+    fontSize: 13, 
+    fontStyle: 'italic', 
+    fontWeight: '500',
+    color: '#47466f',
+  },
+  imageButtonContainerStyle: {
+    marginTop: 20,
+    marginBottom: 15,
     marginHorizontal: 10,
+  },
+  submitButtonContainer: {
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   locationContainer: {
     marginVertical: 20,
@@ -284,6 +323,7 @@ const styles = {
     marginHorizontal: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#808080',
+    color: 'black',
   },
 }
 
