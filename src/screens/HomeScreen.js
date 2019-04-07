@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Platform,
+  Text,
   FlatList,
   StyleSheet,
   RefreshControl,
@@ -25,11 +26,13 @@ class HomeScreen extends React.Component {
     headerVisible: false,
     header: null,
   }
-
+  
   isListEmpty = () => {
     const { listings }  = this.props
     return !listings[Object.keys(listings)[0]].id
   }
+
+  noResults = this.isListEmpty() && !!this.delay
 
   componentWillMount() {
     // Fetch user to be used in the rest of the app
@@ -56,10 +59,15 @@ class HomeScreen extends React.Component {
     setTimeout(this.props.emptyListings, 1000)
     this.delay = setTimeout(() => {
       this.props.getListings(q)
+      if (this.noResultsTimer) clearTimeout(this.noResults)
+      this.noResultsTimer = setTimeout(() => {
+        if (this.isListEmpty()) this.noResults = true
+        this.forceUpdate()
+      }, 3500)
     }, 1500)
   }
 
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     const onPress = () => {
       this.props.updateListing(item)
       this.props.navigation.navigate('Listing', {title: item.title})
@@ -77,13 +85,18 @@ class HomeScreen extends React.Component {
     />
   )
   _keyExtractor = (item, index) => item.id
-  _ListEmptyComponent = (
+  _ListEmptyComponent = () => (
     <View style={styles.ListEmptyComponent}>
-      <Spinner size="large" color="#47466f" />
+      {this.noResults ? (
+        <Text style={styles.noResultsText}>No search results!</Text>
+      ) : (
+        <Spinner size="large" color="#47466f" />
+      )}
     </View>
   )
 
   render() {
+    console.log(this.noResultsTimer, this.noResults, this.isListEmpty(), this.delay)
     return (
       <Root>
         <Container>
@@ -95,7 +108,7 @@ class HomeScreen extends React.Component {
                 value={this.props.searchValue}
                 onChangeText={this.handleSearchChange}
               />
-              {this.isListEmpty() && (
+              {this.isListEmpty() && !this.noResults && (
                 <Spinner style={styles.loading} size="small" color="#47466f"/>
               )}
             </Item>
@@ -109,7 +122,7 @@ class HomeScreen extends React.Component {
               data={objectToArray(this.props.listings)}
               renderItem={this._renderItem}
               keyExtractor={this._keyExtractor}
-              ListEmptyComponent={this._ListEmptyComponent}
+              ListEmptyComponent={this._ListEmptyComponent()}
             />
           </Content>
         </Container>
@@ -132,6 +145,12 @@ const styles = StyleSheet.create({
   },
   ListEmptyComponent: {
     paddingTop: 100,
+  },
+  noResultsText: {
+    alignSelf: 'center',
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#47466f',
   }
 });
 
