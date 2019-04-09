@@ -7,6 +7,7 @@ import phone from './phone/phoneIndex'
 import addBook from './addBook/addBookIndex'
 import home from './home/homeIndex'
 import listing from './listing/listingIndex'
+import myListings  from './myListings/myListingsIndex'
 
 export default combineReducers({
   user: user,
@@ -16,4 +17,5 @@ export default combineReducers({
   addBook: addBook,
   home: home,
   listing: listing,
+  myListings: myListings
 })

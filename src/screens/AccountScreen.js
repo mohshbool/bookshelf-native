@@ -22,6 +22,10 @@ class AccountScreen extends React.Component {
     this.listener.remove()
   }
 
+  navigateToMyBooks = () => {
+    this.props.navigation.navigate('MyBooks')
+  }
+
   navigateToPhone = () => {
     this.props.navigation.navigate('VerifyPhoneNumber')
   }
@@ -42,6 +46,17 @@ class AccountScreen extends React.Component {
     return(
       <Container>
         <Content contentContainerStyle={styles.container}>
+          <Button 
+            title="My Books"
+            containerStyle={styles.myBooksButtonContainer}
+            icon={<Icon 
+              name="book" 
+              type="FontAwesome"
+              style={styles.buttonIcon} 
+            />}
+            buttonTitleStyle={styles.buttonText}
+            onPress={this.navigateToMyBooks}
+          />
           <Card style={styles.card}>
             <CardItem style={styles.itemContainer}>
               <Icon name="ios-person" style={styles.itemIcon}/>
@@ -95,6 +110,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: 'center',
     backgroundColor: '#c7c7d3'
+  },
+  myBooksButtonContainer: {
+    padding: 20,
   },
   card: {
     marginVertical: 20,
