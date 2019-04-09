@@ -203,6 +203,21 @@ export const getBooks = q => {
   })
 }
 
+export const getMyBooks = () => {
+  return new Promise((resolve, reject) => {
+    const { uid } = firebase.auth().currentUser
+    firebase.database().ref('listings').orderByChild('uid').equalTo(uid).once('value').then(snapshot => {
+      resolve(snapshot.val())
+    }).catch(error => reject(error))
+  })
+}
+
+export const deleteListing = id => {
+  return new Promise(() => {
+    firebase.database().ref(`listings/${id}`).remove()
+  })
+}
+
 export const signOut = () => {
   firebase.auth().signOut()
 }
