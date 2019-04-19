@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, Platform } from 'react-native'
+import { Text, View, TouchableOpacity, Platform, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { Root, Container, Content, Form, Item, Picker, Icon, Textarea } from 'native-base'
+import { Root, Container, Content, Form, Picker, Icon, Textarea } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import ImagePicker from 'react-native-image-picker'
 
@@ -220,22 +220,18 @@ class AddBookScreen extends React.Component {
                   </View>
                 </TouchableOpacity>
                 <Form style={styles.form}>
-                  <Item picker>
-                    <Picker
-                      mode="dropdown"
-                      iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined, color: 'black' }}
-                      placeholder="Choose the type of listing"
-                      placeholderStyle={{ color: '#7e7d9a' }}
-                      textStyle={{ fontSize: 17, color: 'black' }}
-                      selectedValue={this.props.form.type}
-                      onValueChange={this.handleTypeChange}
-                    >
-                      <Picker.Item label="FREE" value="free" />
-                      <Picker.Item label="Trade" value="trade" />
-                      <Picker.Item label="Sell" value="sell" />
-                    </Picker>
-                  </Item>
+                  <Picker
+                    note
+                    mode="dropdown"
+                    placeholder="Choose the type of listing"
+                    placeholderStyle={{ color: '#7e7d9a' }}
+                    selectedValue={this.props.form.type}
+                    onValueChange={this.handleTypeChange}
+                  >
+                    <Picker.Item label="FREE" value="free" />
+                    <Picker.Item label="Trade" value="trade" />
+                    <Picker.Item label="Sell" value="sell" />
+                  </Picker>
                 </Form>
                 <Form style={styles.form}>
                   <Textarea 
@@ -284,6 +280,8 @@ const styles = {
     margin: 5, 
     paddingHorizontal: 10, 
     paddingTop: 30,
+    justifyContent: 'space-between',
+    height: Dimensions.get('window').height - 120
   },
   containerStyle : { marginVertical: 5 },
   suggestionContainer: {

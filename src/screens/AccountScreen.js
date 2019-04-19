@@ -45,7 +45,7 @@ class AccountScreen extends React.Component {
     const shieldIconName  = isPhoneVerified ? "shield" : "shield-off"
     return(
       <Container>
-        <Content contentContainerStyle={styles.container}>
+        <Content contentContainerStyle={styles.container} style={{backgroundColor: '#c7c7d3'}}>
           <Button 
             title="My Books"
             containerStyle={styles.myBooksButtonContainer}
