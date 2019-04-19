@@ -1,6 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
 import { Icon } from 'native-base'
+import 'react-native-gesture-handler'
 
 import HomeNavigator from './HomeNavigation'
 import AddBookNavigation from './AddBookNavigation'

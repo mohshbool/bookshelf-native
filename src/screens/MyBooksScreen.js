@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, View, FlatList, StyleSheet } from 'react-native'
-import { Container, Content, Spinner } from 'native-base'
+import { Container, Content, Spinner, Icon } from 'native-base'
 import { connect } from 'react-redux'
 import MyListingRow from '../components/MyListingRow'
 
@@ -8,9 +8,29 @@ import { getMyListingsActionCreator } from '../actions/myListingsActionCreators'
 import { deleteListing as deleteListingById } from '../api/firebase'
 import { objectToArray } from '../util'
 class MyBooksScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'My Books',
+    headerStyle: {
+      backgroundColor: '#9f9fa8'
+    },
+    headerBackTitleStyle: {
+      color: '#101010'
+    },
+    headerBackImage: (tintColor, title) => (
+      <Icon name="ios-arrow-back" style={{
+        fontSize: 23, 
+        color: '#101010', 
+        paddingLeft: 15,
+        paddingRight: 7,
+        }} 
+      />
+    )
+  }
+
   componentWillMount() {
     this.props.getListings()
   }
+
   getBookById = id => {
     const { books } = this.props
     for (let book of objectToArray(books)) {
