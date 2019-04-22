@@ -16,6 +16,7 @@ import {
 import { 
   clearFormActionCreator as clearRegisterFormActionCreator
 } from '../actions/registerActionCreators'
+import { trimAll } from '../util';
 
 class LoginScreen extends React.Component {
   validateForm = () => {
@@ -37,7 +38,7 @@ class LoginScreen extends React.Component {
 
   login = () => {
     const user = {
-      email: this.props.user.email,
+      email: trimAll(this.props.user.email),
       password: this.props.user.password
     }
     this.props.login(user).then(() => {
