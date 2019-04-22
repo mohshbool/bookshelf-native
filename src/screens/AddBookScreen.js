@@ -179,7 +179,6 @@ class AddBookScreen extends React.Component {
                     placeholder="Title"
                     value={this.props.form.title}
                     onChangeText={this.handleTitleChange}
-                    containerStyle={styles.containerStyle}
                     autoCapitalize="sentences"
                     onSubmitEditing={() => this.author.focus() }
                   />
@@ -199,7 +198,6 @@ class AddBookScreen extends React.Component {
                   placeholder="Author"
                   value={this.props.form.author}
                   onChangeText={this.handleAuthorChange}
-                  containerStyle={styles.containerStyle}
                   autoCapitalize="sentences"
                   ref={input => this.author = input}
                 />
@@ -235,7 +233,7 @@ class AddBookScreen extends React.Component {
                 </Form>
                 <Form style={styles.form}>
                   <Textarea 
-                    rowSpan={3}  
+                    rowSpan={4}  
                     placeholder={"Write a short description about your book." + 
                       " Condition, location details or other details"} 
                     placeholderTextColor="#7e7d9a"
@@ -281,9 +279,8 @@ const styles = {
     paddingHorizontal: 10, 
     paddingTop: 30,
     justifyContent: 'space-between',
-    height: Dimensions.get('window').height - 120
+    height: '100%'
   },
-  containerStyle : { marginVertical: 5 },
   suggestionContainer: {
     marginTop: 3, 
     marginLeft: 18,
@@ -301,7 +298,8 @@ const styles = {
   },
   submitButtonContainer: {
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 20,
   },
   locationContainer: {
     marginVertical: 20,
@@ -317,7 +315,6 @@ const styles = {
     color: placeholder ? '#7e7d9a' : 'black',
   }),
   form: {
-    marginVertical: 10, 
     marginHorizontal: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#808080',

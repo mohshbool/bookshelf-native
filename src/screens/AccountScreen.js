@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import { Container, Content, Button as NButton, Card, CardItem, Icon, Right } from 'native-base'
 import Button from '../components/Button'
 
@@ -46,58 +46,62 @@ class AccountScreen extends React.Component {
     return(
       <Container>
         <Content contentContainerStyle={styles.container} style={{backgroundColor: '#c7c7d3'}}>
-          <Button 
-            title="My Books"
-            containerStyle={styles.myBooksButtonContainer}
-            icon={<Icon 
-              name="book" 
-              type="FontAwesome"
-              style={styles.buttonIcon} 
-            />}
-            buttonTitleStyle={styles.buttonText}
-            onPress={this.navigateToMyBooks}
-          />
-          <Card style={styles.card}>
-            <CardItem style={styles.itemContainer}>
-              <Icon name="ios-person" style={styles.itemIcon}/>
-              <Text style={styles.itemText}>{username}</Text>
-            </CardItem>
-            <CardItem style={styles.itemContainer}>
-              <Icon name="ios-mail" style={styles.itemIcon}/>
-              <Text style={StyleSheet.flatten([styles.itemText, {fontStyle: 'italic'}])}>{email}</Text>
-            </CardItem>
-            <CardItem style={{...styles.itemContainer, marginVertical: 10}}>
-              <Icon name="ios-call" style={styles.itemIcon}/>
-              <Text style={styles.itemText}>{phoneNumber}</Text>
-              <Right>
-                <NButton transparent onPress={this.navigateToPhone} disabled={isPhoneVerified}>
-                  <Icon type="Feather" name={shieldIconName} style={styles.shield} />
-                </NButton>
-              </Right>
-            </CardItem>
-           </Card>
-           <View style={styles.buttonsContainer}>
-            <Button 
-              title="Contact Us"
-              icon={<Icon 
-                type="MaterialIcons" 
-                name="contact-mail"
-                style={styles.buttonIcon} 
-              />}
-              containerStyle={styles.buttonContainer}
-              buttonTitleStyle={styles.buttonText}
-              onPress={() => this.props.navigation.navigate('About')}
-            />
-            <Button 
-              title="Log Out"
-              icon={<Icon 
-                name="ios-log-out" 
-                style={styles.buttonIcon} 
-              />}
-              buttonTitleStyle={styles.buttonText}
-              onPress={this.signOut}
-            />
-           </View>
+          <View style={styles.innerContainer}>
+            <View style={styles.cardWithButton}>
+              <Button 
+                title="My Books"
+                containerStyle={styles.myBooksButtonContainer}
+                icon={<Icon 
+                  name="book" 
+                  type="FontAwesome"
+                  style={styles.buttonIcon} 
+                />}
+                buttonTitleStyle={styles.buttonText}
+                onPress={this.navigateToMyBooks}
+              />
+              <Card style={styles.card}>
+                <CardItem style={styles.itemContainer}>
+                  <Icon name="ios-person" style={styles.itemIcon}/>
+                  <Text style={styles.itemText}>{username}</Text>
+                </CardItem>
+                <CardItem style={styles.itemContainer}>
+                  <Icon name="ios-mail" style={styles.itemIcon}/>
+                  <Text style={StyleSheet.flatten([styles.itemText, {fontStyle: 'italic'}])}>{email}</Text>
+                </CardItem>
+                <CardItem style={{...styles.itemContainer, marginVertical: 10}}>
+                  <Icon name="ios-call" style={styles.itemIcon}/>
+                  <Text style={styles.itemText}>{phoneNumber}</Text>
+                  <Right>
+                    <NButton transparent onPress={this.navigateToPhone} disabled={isPhoneVerified}>
+                      <Icon type="Feather" name={shieldIconName} style={styles.shield} />
+                    </NButton>
+                  </Right>
+                </CardItem>
+              </Card>
+            </View>
+            <View style={styles.buttonsContainer}>
+              <Button 
+                title="Contact Us"
+                icon={<Icon 
+                  type="MaterialIcons" 
+                  name="contact-mail"
+                  style={styles.buttonIcon} 
+                />}
+                containerStyle={styles.buttonContainer}
+                buttonTitleStyle={styles.buttonText}
+                onPress={() => this.props.navigation.navigate('About')}
+              />
+              <Button 
+                title="Log Out"
+                icon={<Icon 
+                  name="ios-log-out" 
+                  style={styles.buttonIcon} 
+                />}
+                buttonTitleStyle={styles.buttonText}
+                onPress={this.signOut}
+              />
+            </View>
+          </View>
         </Content>
       </Container>
     )
@@ -108,8 +112,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#c7c7d3'
+  },
+  innerContainer: {
+    justifyContent: 'space-around',
+    width: '100%',
+    height: '100%',
   },
   myBooksButtonContainer: {
     padding: 20,
@@ -142,15 +151,13 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 100,
-    paddingHorizontal: 6,
+    justifyContent: 'space-between',
+    width: Dimensions.get('window').width * 0.9,
   },
   buttonContainer: {
-    marginRight: 30,
+    width: '55%',
   },
   buttonIcon: {
-    paddingLeft: 4,
     paddingRight: 2,
     fontSize: 25,
     color: '#c7c7d3',
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     fontWeight: '400',
-    paddingHorizontal: 5,
+    paddingHorizontal: 2
   }
 })
 
