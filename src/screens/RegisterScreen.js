@@ -4,7 +4,10 @@ import {
   Alert, 
   StyleSheet, 
   Text, 
+  Platform,
   TouchableOpacity, 
+  TouchableNativeFeedback,
+  Dimensions,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Container, Icon } from 'native-base'
@@ -111,86 +114,89 @@ class RegisterScreen extends React.Component {
   }
 
   render() {
+    const TouchableComponent = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback
     return (
       <Container>
         <KeyboardAwareScrollView 
           style={{backgroundColor: '#c7c7d3'}} 
           contentContainerStyle={styles.container}
         >
-          <Input
-            placeholder="Username"
-            value={this.props.user.username.value}
-            onChangeText={this.handleUsernameChange}
-            containerStyle={styles.containerStyle}
-            inputStyle={styles.inputStyle}
-            errorMessage={this.props.user.username.err}
-            errorStyle={{ color: this.props.user.username.color }}
-            icon={this.getIcon('username')}
-            onSubmitEditing={() => this.email.focus()}
-          />
-          <Input
-            placeholder="E-mail"
-            value={this.props.user.email.value}
-            onChangeText={this.handleEmailChange}
-            textContentType="username"
-            containerStyle={styles.containerStyle}
-            inputStyle={styles.inputStyle}
-            errorMessage={this.props.user.email.err}
-            errorStyle={{ color: this.props.user.email.color }}
-            icon={this.getIcon('email')}
-            ref={ref => this.email = ref}
-            onSubmitEditing={() => this.password.focus()}
-          />
-          <Input
-            placeholder="Password"
-            value={this.props.user.password.value}
-            onChangeText={this.handlePasswordChange}
-            textContentType="password"
-            secureTextEntry
-            contextMenuHidden
-            enablesReturnKeyAutomatically
-            containerStyle={styles.containerStyle}
-            inputStyle={styles.inputStyle}
-            errorMessage={this.props.user.password.err}
-            errorStyle={{ color: this.props.user.password.color }}
-            icon={this.getIcon('password')}
-            ref={input => this.password = input}
-            onSubmitEditing={() => this.phone.focus()}
-          />
-          <Input
-            placeholder="Phone Number"
-            value={this.props.user.phone.value}
-            onChangeText={this.handlePhoneChange}
-            maxLength={14}
-            dataDetectorTypes="phoneNumber"
-            keyboardType="number-pad"
-            textContentType="telephoneNumber"
-            returnKeyType={"next"}
-            containerStyle={styles.containerStyle}
-            inputStyle={styles.inputStyle}
-            errorMessage={this.props.user.phone.err}
-            errorStyle={{ color: this.props.user.phone.color }}
-            icon={this.getIcon('phone')}
-            ref={input => this.phone = input}
-          />
-          <Button 
-            title="Register" 
-            onPress={this._register}
-            containerStyle={styles.registerButton}
-            buttonStyle={{ paddingVertical: 10 }}
-            disabled={!this.props.isValid}
-          />
-          <TouchableOpacity style={{alignSelf: 'center', marginVertical: 10 }}
-            onPress={() => this.props.navigation.navigate('Login')}
-            hitSlop={{top: 15, bottom: 15, left: 10, right: 10}}
-          >
-            <Text style={{ fontSize: 18, color: '#47466f'}}>
-              Already have an account?&nbsp;
-              <Text style={{fontWeight: 'bold'}}>
-                Log In
-              </Text>
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.inputsContainer}>
+            <Input
+              placeholder="Username"
+              value={this.props.user.username.value}
+              onChangeText={this.handleUsernameChange}
+              inputStyle={styles.inputStyle}
+              errorMessage={this.props.user.username.err}
+              errorStyle={{ color: this.props.user.username.color }}
+              icon={this.getIcon('username')}
+              onSubmitEditing={() => this.email.focus()}
+            />
+            <Input
+              placeholder="E-mail"
+              value={this.props.user.email.value}
+              onChangeText={this.handleEmailChange}
+              textContentType="username"
+              inputStyle={styles.inputStyle}
+              errorMessage={this.props.user.email.err}
+              errorStyle={{ color: this.props.user.email.color }}
+              icon={this.getIcon('email')}
+              ref={ref => this.email = ref}
+              onSubmitEditing={() => this.password.focus()}
+            />
+            <Input
+              placeholder="Password"
+              value={this.props.user.password.value}
+              onChangeText={this.handlePasswordChange}
+              textContentType="password"
+              secureTextEntry
+              contextMenuHidden
+              enablesReturnKeyAutomatically
+              inputStyle={styles.inputStyle}
+              errorMessage={this.props.user.password.err}
+              errorStyle={{ color: this.props.user.password.color }}
+              icon={this.getIcon('password')}
+              ref={input => this.password = input}
+              onSubmitEditing={() => this.phone.focus()}
+            />
+            <Input
+              placeholder="Phone Number"
+              value={this.props.user.phone.value}
+              onChangeText={this.handlePhoneChange}
+              maxLength={14}
+              dataDetectorTypes="phoneNumber"
+              keyboardType="number-pad"
+              textContentType="telephoneNumber"
+              returnKeyType={"next"}
+              inputStyle={styles.inputStyle}
+              errorMessage={this.props.user.phone.err}
+              errorStyle={{ color: this.props.user.phone.color }}
+              icon={this.getIcon('phone')}
+              ref={input => this.phone = input}
+            />
+          </View>
+          <View style={styles.footer}>
+            <Button 
+              title="Register" 
+              onPress={this._register}
+              containerStyle={styles.registerButton}
+              buttonStyle={{ paddingVertical: 10 }}
+              disabled={!this.props.isValid}
+            />
+            <TouchableComponent
+              onPress={() => this.props.navigation.navigate('Login')}
+              hitSlop={{top: 15, bottom: 15, left: 10, right: 10}}
+            >
+              <View style={styles.footerTextTouchable}>
+                <Text style={{ fontSize: 18, color: '#47466f'}}>
+                  Already have an account?&nbsp;
+                  <Text style={{fontWeight: 'bold'}}>
+                    Log In
+                  </Text>
+                </Text>
+              </View>
+            </TouchableComponent>
+          </View>
         </KeyboardAwareScrollView>
       </Container>
     )
@@ -199,14 +205,14 @@ class RegisterScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignContent: 'center',
-    margin: 5, 
     paddingHorizontal: 10, 
+    height: '100%'
   },
-  containerStyle : { 
-    marginVertical: 7.5 
+  inputsContainer : { 
+    height: '65%',
+    justifyContent: 'space-between',
   },
   inputStyle: {
     fontSize: 20,
@@ -217,9 +223,18 @@ const styles = StyleSheet.create({
     fontSize: 26, 
     color: '#47466f'
   },
+  footer: {
+    justifyContent: 'space-around',
+    height: '20%',
+    alignItems: 'center',
+  },
+  footerTextTouchable: {
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+  },
   registerButton: {
-    marginVertical: 20,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    width: '90%',
   },
 })
 
