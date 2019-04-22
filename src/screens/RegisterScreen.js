@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Input from '../components/Input'
 import Button from '../components/Button'
 
-import { formatPhoneNumber, arePropsValid } from '../util'
+import { formatPhoneNumber, arePropsValid, trimAll } from '../util'
 import { 
   updateFormActionCreator,
   registerUserActionCreator,
@@ -88,8 +88,8 @@ class RegisterScreen extends React.Component {
 
   _register = () => {
     const userInfo = {
-      username: this.props.user.username.value,
-      email: this.props.user.email.value,
+      username: trimAll(this.props.user.username.value),
+      email: trimAll(this.props.user.email.value),
       password: this.props.user.password.value,
       phoneNumber: this.props.user.phone.value,
     }
