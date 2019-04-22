@@ -6,7 +6,7 @@ import MyListingRow from '../components/MyListingRow'
 
 import { getMyListingsActionCreator } from '../actions/myListingsActionCreators'
 import { deleteListing as deleteListingById } from '../api/firebase'
-import { objectToArray } from '../util'
+import { objectToArray, upperCaseFirstLetterInWords } from '../util'
 class MyBooksScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'My Books',
@@ -44,7 +44,7 @@ class MyBooksScreen extends React.Component {
     const { title } = this.getBookById(id)
     Alert.alert(
       'Delete',
-      `Are you sure you want to delete ${title}`,
+      `Are you sure you want to delete ${upperCaseFirstLetterInWords(title)}`,
       [
         { text: 'Dismiss' },
         {
