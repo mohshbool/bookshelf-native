@@ -57,14 +57,12 @@ export const arePropsValid = props => {
 			return false
 		}
 	}
-	console.log("HRERE")
 	return true
 }
 
 export const objectToArray = object => {
 	let array = []
 	for (let values of Object.values(object)){
-		console.log(values)
 		if (!values.id) return
 		array.push(values)
 	}

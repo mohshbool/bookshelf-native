@@ -208,11 +208,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignContent: 'center',
     paddingHorizontal: 10, 
-    height: '100%'
+    height: Platform.OS === 'ios' ? Dimensions.get('window').height * 0.8 : '95%'
   },
   inputsContainer : { 
     height: '65%',
     justifyContent: 'space-between',
+    paddingTop: 20,
   },
   inputStyle: {
     fontSize: 20,

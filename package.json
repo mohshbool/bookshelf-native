@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "reset:watchman": "watchman watch-del-all",
+    "android:clean": "cd android && ./gradlew clean && cd ..",
+    "android:start": "react-native run-android",
+    "android:build": "cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "native-base": "^2.11.0",

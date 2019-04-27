@@ -27,7 +27,6 @@ class ListingSceen extends React.Component {
   }
   
   render() {
-    console.log(this.props.state)
     const {
       title,
       author,

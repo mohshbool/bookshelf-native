@@ -27,14 +27,13 @@ class MyBooksScreen extends React.Component {
     )
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getListings()
   }
 
   getBookById = id => {
     const { books } = this.props
     for (let book of objectToArray(books)) {
-      console.log(book)
       if (book.id === id) {
         return book
       }

@@ -74,7 +74,6 @@ export const verifyPhoneNumber = {
             resolve(phoneAuthSnapshot.verificationId)
             break
           case firebase.auth.PhoneAuthState.ERROR:
-            console.log(phoneAuthSnapshot.error)
             reject(phoneAuthSnapshot.error.message)
             break
         }
@@ -173,7 +172,6 @@ export const getUser = id => {
     const uid = !id ? firebase.auth().currentUser.uid : id
     firebase.database().ref('users/' + uid).once('value').then(snapshot => {
       const user = snapshot.val()
-      console.log(user)
       if (user && user.uid) {
         resolve(user)
       } else {
