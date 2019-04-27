@@ -352,7 +352,6 @@ function citiesToDataArray(Cities) {
     }
     list.push({ key: city, areas: areasList })
   }
-  console.log(list)
   return list
 }
 export const citiesDataArray = citiesToDataArray(cities)

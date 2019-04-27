@@ -38,7 +38,6 @@ export default class CitiesScreen extends React.Component {
   )}
 
   render() {
-    console.log(citiesDataArray)
     return (
       <ScrollView>
         <FlatList

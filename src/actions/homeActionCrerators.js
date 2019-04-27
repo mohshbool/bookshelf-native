@@ -5,7 +5,6 @@ export const getListingsActionCreator = q => dispatch => {
   return new Promise((resolve, reject) => {
     getBooks(q).then(listings => {
       dispatch({type:'GET_LISTINGS_FULFILLED', payload: {listings} })
-      console.log(listings)
       resolve()
     }).catch(error => {
       dispatch({type:'GET_LISTINGS_REJECTED', payload: {error} })

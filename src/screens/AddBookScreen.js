@@ -37,7 +37,6 @@ class AddBookScreen extends React.Component {
 
   validateForm = () => setTimeout(() => {
     const form = this.props.form
-    console.log(form)
     if (!form.title || !form.author || !form.location.full || !form.type || !form.descreption 
       || (!form.imageUri && !form.GRimageUrl)
       || (form.type === 'Sell' && form.price <= 0)) {
@@ -63,7 +62,6 @@ class AddBookScreen extends React.Component {
       this.delay = setTimeout(() => {
         this.props.getBooks(title).then(books => {
           this.props.updateSuggestion({...books[0]})
-          console.log(books)
         }).catch(() => {})
       }, 30)
     }
@@ -93,10 +91,8 @@ class AddBookScreen extends React.Component {
   handleChooseImage = () => {
     ImagePicker.showImagePicker(null, (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         reportInfo('If you don\'t choose an image, one will be chosen for you based on the suggestion you chose')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
         reportInfo('Something went wrong while picking the image. Please try again later', 'danger')
       } else {
         this.props.updateForm({ imageUri: response.uri })
@@ -139,14 +135,12 @@ class AddBookScreen extends React.Component {
       if (this.props.form.imageUri !== this.props.form.GRimageUrl) {
         this.props.uploadImage(this.props.form.imageUri, postId).then(success).catch(error => {
           reportInfo('Your picture wasn\'t uploaded. Please try again later', 'danger')
-          console.log(error || this.props.uploadImageStatus)
         })
       } else success()
     }), 10)
   }
 
   render () {
-    console.log(this.props.form)
     return (
       <Root>
         <Container>
@@ -279,7 +273,7 @@ const styles = {
     paddingHorizontal: 10, 
     paddingTop: 30,
     justifyContent: 'space-between',
-    height: '100%'
+    height: Platform.OS === 'ios' ? Dimensions.get('window').height * 0.85 : '100%'
   },
   suggestionContainer: {
     marginTop: 3, 
