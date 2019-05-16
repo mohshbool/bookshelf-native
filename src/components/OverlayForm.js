@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Platform } from 'react-native'
 import { Icon } from 'native-base'
 
 import Input from '../components/Input'
@@ -52,14 +52,18 @@ export default class OverlayForm extends React.Component {
 
 const styles = StyleSheet.create({
   overlay: {
-    marginVertical: 150,
+    
   },
   container: {
-    marginHorizontal: 20,
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
     backgroundColor: '#c7c7d3',
     borderColor: '#47466f',
     borderWidth: 6,
     borderRadius: 15,
+    paddingVertical: 20,
+    paddingHorizontal: Platform.OS === 'ios' ? 0 : 20,
   },
   buttonContainer: {
     marginHorizontal: 20, 

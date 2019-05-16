@@ -55,7 +55,7 @@ export default class AboutScreen extends React.Component {
           onBackdropPress={() => this.setState({ visible: false })}
           overlayStyle={styles.overlayStyle}
           containerStyle={styles.containerStyle}
-        >
+          >
           <Text style={styles.emailText}>alshboolmoh@gmail.com</Text>
           </Overlay>
           <View style={styles.aboutDefaultCotainer}>

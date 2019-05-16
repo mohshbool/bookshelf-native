@@ -96,7 +96,6 @@ class HomeScreen extends React.Component {
   )
 
   render() {
-    console.log(this.noResultsTimer, this.noResults, this.isListEmpty(), this.delay)
     return (
       <Root>
         <Container>

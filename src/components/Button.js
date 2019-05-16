@@ -1,12 +1,13 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import { TouchableNativeFeedback, TouchableOpacity, Platform, View, Text, StyleSheet } from 'react-native'
  
 export default class Button extends React.Component {
   render() {
     const { disabled } = this.props
+    const TouchableComponent = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback
     return (
       <View style={StyleSheet.flatten([styles.container, this.props.containerStyle])}>
-        <TouchableOpacity 
+        <TouchableComponent 
           onPress={this.props.onPress || null}
           activeOpacity={0.3} 
           disabled={disabled || false}
@@ -23,7 +24,7 @@ export default class Button extends React.Component {
               </Text>
             )}
           </View>
-        </TouchableOpacity>
+        </TouchableComponent>
       </View>
     )
   }

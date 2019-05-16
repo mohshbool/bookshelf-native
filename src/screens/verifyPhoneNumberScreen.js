@@ -60,10 +60,8 @@ class verifyPhoneNumberScreen extends React.Component {
 
   sendVerificationCode = () => {
     let phone = this.props.phoneNumber
-    console.log(this.props.sendVerification)
     if (/\+\d{11,13}/.test(phone)) {
       this.props.sendVerificationCode(phone).then(() => {
-        console.log(this.props.sendVerification)
         this.props.updateVisibilty(true)
       }).catch(error => {
         //TODO ERROR REPORTING ON THE CODE SENDING PROCCESS
@@ -78,7 +76,6 @@ class verifyPhoneNumberScreen extends React.Component {
     const verificationId = this.props.sendVerification.id
     if (verificationId) {
       this.props.confirmVerificationCode(verificationId, userCode).then(credntial => {
-        console.log('creating the credntial worked')
         this.props.addToDB(credntial).then(() => {
           Alert.alert(
             'Success',
@@ -95,12 +92,10 @@ class verifyPhoneNumberScreen extends React.Component {
             ]
           )
         }).catch(() => {
-          console.log(this.props.addPhoneToDB)
           this.alertError('Invalid Verification Code', this.props.addPhoneToDB)
         })
       }).catch(() => {
         this.alertError('An error occured', 'There was a problem verifying your phone number')
-        console.log(this.props.confirmVerification)
       })
     }
     else {
@@ -109,7 +104,6 @@ class verifyPhoneNumberScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.state)
     return (
       <Root>
         <Container style={{backgroundColor: '#c7c7d3'}}>

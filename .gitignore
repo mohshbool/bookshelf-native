@@ -6,9 +6,7 @@ __tests__
 /placeholder.txt
 /config.log
 /external_assets
-
-# Not sure about this
-/Fonts
+/ios/Pods
 
 # OSX
 #

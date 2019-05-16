@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, Platform } from 'react-native'
+import { Text, View, TouchableOpacity, Platform, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { Root, Container, Content, Form, Item, Picker, Icon, Textarea } from 'native-base'
+import { Root, Container, Content, Form, Picker, Icon, Textarea } from 'native-base'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import ImagePicker from 'react-native-image-picker'
 
@@ -37,7 +37,6 @@ class AddBookScreen extends React.Component {
 
   validateForm = () => setTimeout(() => {
     const form = this.props.form
-    console.log(form)
     if (!form.title || !form.author || !form.location.full || !form.type || !form.descreption 
       || (!form.imageUri && !form.GRimageUrl)
       || (form.type === 'Sell' && form.price <= 0)) {
@@ -63,7 +62,6 @@ class AddBookScreen extends React.Component {
       this.delay = setTimeout(() => {
         this.props.getBooks(title).then(books => {
           this.props.updateSuggestion({...books[0]})
-          console.log(books)
         }).catch(() => {})
       }, 30)
     }
@@ -93,10 +91,8 @@ class AddBookScreen extends React.Component {
   handleChooseImage = () => {
     ImagePicker.showImagePicker(null, (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker')
         reportInfo('If you don\'t choose an image, one will be chosen for you based on the suggestion you chose')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
         reportInfo('Something went wrong while picking the image. Please try again later', 'danger')
       } else {
         this.props.updateForm({ imageUri: response.uri })
@@ -139,14 +135,12 @@ class AddBookScreen extends React.Component {
       if (this.props.form.imageUri !== this.props.form.GRimageUrl) {
         this.props.uploadImage(this.props.form.imageUri, postId).then(success).catch(error => {
           reportInfo('Your picture wasn\'t uploaded. Please try again later', 'danger')
-          console.log(error || this.props.uploadImageStatus)
         })
       } else success()
     }), 10)
   }
 
   render () {
-    console.log(this.props.form)
     return (
       <Root>
         <Container>
@@ -179,7 +173,6 @@ class AddBookScreen extends React.Component {
                     placeholder="Title"
                     value={this.props.form.title}
                     onChangeText={this.handleTitleChange}
-                    containerStyle={styles.containerStyle}
                     autoCapitalize="sentences"
                     onSubmitEditing={() => this.author.focus() }
                   />
@@ -199,7 +192,6 @@ class AddBookScreen extends React.Component {
                   placeholder="Author"
                   value={this.props.form.author}
                   onChangeText={this.handleAuthorChange}
-                  containerStyle={styles.containerStyle}
                   autoCapitalize="sentences"
                   ref={input => this.author = input}
                 />
@@ -220,26 +212,22 @@ class AddBookScreen extends React.Component {
                   </View>
                 </TouchableOpacity>
                 <Form style={styles.form}>
-                  <Item picker>
-                    <Picker
-                      mode="dropdown"
-                      iosIcon={<Icon name="arrow-down" />}
-                      style={{ width: undefined, color: 'black' }}
-                      placeholder="Choose the type of listing"
-                      placeholderStyle={{ color: '#7e7d9a' }}
-                      textStyle={{ fontSize: 17, color: 'black' }}
-                      selectedValue={this.props.form.type}
-                      onValueChange={this.handleTypeChange}
-                    >
-                      <Picker.Item label="FREE" value="free" />
-                      <Picker.Item label="Trade" value="trade" />
-                      <Picker.Item label="Sell" value="sell" />
-                    </Picker>
-                  </Item>
+                  <Picker
+                    note
+                    mode="dropdown"
+                    placeholder="Choose the type of listing"
+                    placeholderStyle={{ color: '#7e7d9a' }}
+                    selectedValue={this.props.form.type}
+                    onValueChange={this.handleTypeChange}
+                  >
+                    <Picker.Item label="FREE" value="free" />
+                    <Picker.Item label="Trade" value="trade" />
+                    <Picker.Item label="Sell" value="sell" />
+                  </Picker>
                 </Form>
                 <Form style={styles.form}>
                   <Textarea 
-                    rowSpan={3}  
+                    rowSpan={4}  
                     placeholder={"Write a short description about your book." + 
                       " Condition, location details or other details"} 
                     placeholderTextColor="#7e7d9a"
@@ -284,8 +272,9 @@ const styles = {
     margin: 5, 
     paddingHorizontal: 10, 
     paddingTop: 30,
+    justifyContent: 'space-between',
+    height: Platform.OS === 'ios' ? Dimensions.get('window').height * 0.85 : '100%'
   },
-  containerStyle : { marginVertical: 5 },
   suggestionContainer: {
     marginTop: 3, 
     marginLeft: 18,
@@ -303,7 +292,8 @@ const styles = {
   },
   submitButtonContainer: {
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 20,
   },
   locationContainer: {
     marginVertical: 20,
@@ -319,7 +309,6 @@ const styles = {
     color: placeholder ? '#7e7d9a' : 'black',
   }),
   form: {
-    marginVertical: 10, 
     marginHorizontal: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#808080',

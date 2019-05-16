@@ -1,6 +1,4 @@
 import { parseString } from 'react-native-xml2js'
-import { PushNotificationIOS } from 'react-native'
-import PushNotification from 'react-native-push-notification'
 import { Toast } from 'native-base'
 
 export const getBooks = q => new Promise((resolve, reject) => {
@@ -59,14 +57,12 @@ export const arePropsValid = props => {
 			return false
 		}
 	}
-	console.log("HRERE")
 	return true
 }
 
 export const objectToArray = object => {
 	let array = []
 	for (let values of Object.values(object)){
-		console.log(values)
 		if (!values.id) return
 		array.push(values)
 	}
@@ -123,28 +119,6 @@ export const trimAll = string => {
 		}
 	}
 }
-
-// A helper function for react-native-firebase push notification
-export const pushLocalNotification = (title, message, time) => {
-	PushNotification.configure({
-		onNotification: notification => {
-			console.log(notification)
-			notification.finish(PushNotificationIOS.FetchResult.NoData)
-			console.log('herre')
-		},
-		popInitialNotification: true,
-		requestPermissions: true,
-	})
-	PushNotification.localNotificationSchedule({
-		title: title,
-		message: message,
-		date: new Date(Date.now() + (60 * time))
-	})
-}
-
-/* export const showNotification = notification => {
-	firebase.notifications().displayNotification(notification)
-} */
 
 export function reportInfo(error, type, onDismiss, position) {
 	if (!error) throw new Error('Report message missing')

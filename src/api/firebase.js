@@ -74,7 +74,6 @@ export const verifyPhoneNumber = {
             resolve(phoneAuthSnapshot.verificationId)
             break
           case firebase.auth.PhoneAuthState.ERROR:
-            console.log(phoneAuthSnapshot.error)
             reject(phoneAuthSnapshot.error.message)
             break
         }
@@ -173,7 +172,6 @@ export const getUser = id => {
     const uid = !id ? firebase.auth().currentUser.uid : id
     firebase.database().ref('users/' + uid).once('value').then(snapshot => {
       const user = snapshot.val()
-      console.log(user)
       if (user && user.uid) {
         resolve(user)
       } else {
@@ -200,6 +198,21 @@ export const getBooks = q => {
         resolve(books)
       })
     }
+  })
+}
+
+export const getMyBooks = () => {
+  return new Promise((resolve, reject) => {
+    const { uid } = firebase.auth().currentUser
+    firebase.database().ref('listings').orderByChild('uid').equalTo(uid).once('value').then(snapshot => {
+      resolve(snapshot.val())
+    }).catch(error => reject(error))
+  })
+}
+
+export const deleteListing = id => {
+  return new Promise(() => {
+    firebase.database().ref(`listings/${id}`).remove()
   })
 }
 
