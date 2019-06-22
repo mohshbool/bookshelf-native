@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux'
 
-import store from './src/store'
+import store from './store'
 
-import MainScreen from './src/screens/MainScreen'
+import MainScreen from './screens/MainScreen'
 
 export default class App extends React.Component {
   render() {
